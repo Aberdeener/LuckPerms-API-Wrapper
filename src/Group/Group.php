@@ -2,15 +2,31 @@
 
 namespace LuckPermsAPI\Group;
 
-use Illuminate\Support\Collection;
-use LuckPermsAPI\Node\Node;
+use LuckPermsAPI\Concerns\HasPermissions;
+use LuckPermsAPI\Concerns\HasRawNodes;
 
 class Group {
 
-    private string $name;
+    use HasRawNodes;
+    use HasPermissions;
 
-    public function __construct(string $name) {
+    private string $name;
+    private string $displayName;
+    private int $weight;
+    private array $metadata;
+
+    public function __construct(
+        string $name,
+        string $displayName,
+        int $weight,
+        array $metadata,
+        array $nodes,
+    ) {
         $this->name = $name;
+        $this->displayName = $displayName;
+        $this->weight = $weight;
+        $this->metadata = $metadata;
+        $this->rawNodes = $nodes;
     }
 
     public function name(): string {
@@ -18,22 +34,26 @@ class Group {
     }
 
     public function displayName(): string {
-
+        return $this->displayName;
     }
 
     public function weight(): int {
-
+        return $this->weight;
     }
 
     public function metadata(): array {
-
+        return $this->metadata;
     }
 
-    /**
-     * @return Collection<Node>
-     */
-    public function nodes(): Collection {
-
+    public function toUserGroup(array $contexts, int $expiry): UserGroup {
+        return new UserGroup(
+            $this->name(),
+            $this->displayName(),
+            $this->weight(),
+            $this->metadata(),
+            $this->rawNodes(),
+            $contexts,
+            $expiry,
+        );
     }
-
 }

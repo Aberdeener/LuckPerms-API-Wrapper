@@ -4,21 +4,28 @@ namespace LuckPermsAPI\Permission;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
-use LuckPermsAPI\Node\Node;
 
 class PermissionMapper implements Mapper {
 
     /**
-     * @param Node[] $data
+     * @param array $data
      * @return Collection<Permission>
      */
     public static function map(array $data): Collection {
         $permissions = new Collection();
 
         foreach ($data as $permissionData) {
-            $permissions->push(new Permission($permissionData->key(), $permissionData->value()));
+            $permissions->push(new Permission(
+                $permissionData['key'],
+                $permissionData['value'],
+                $permissionData['context'],
+            ));
         }
 
         return $permissions;
+    }
+
+    public static function mapSingle(array $data): Permission {
+        return self::map($data)->first();
     }
 }

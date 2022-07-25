@@ -8,7 +8,7 @@ use LuckPermsAPI\Node\NodeType;
 class NodeMapperTest extends \PHPUnit\Framework\TestCase {
 
     public function test_node_mapper_can_map_node_data_to_node_objects(): void {
-        $nodeData = [
+        $nodes = [
             [
                 'key' => 'permissions.test1',
                 'type' => 'permission',
@@ -43,7 +43,7 @@ class NodeMapperTest extends \PHPUnit\Framework\TestCase {
             ]
         ];
 
-        $nodes = NodeMapper::map($nodeData);
+        $nodes = NodeMapper::map($nodes);
 
         $this->assertCount(3, $nodes);
 
@@ -54,22 +54,22 @@ class NodeMapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('permissions.test1', $nodes->get('permissions.test1')->key());
         $this->assertEquals(NodeType::Permission, $nodes->get('permissions.test1')->type());
         $this->assertEquals('true', $nodes->get('permissions.test1')->value());
-        $this->assertCount(2, $nodes->get('permissions.test1')->contextSet());
-        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test1')->contextSet()->get(0)->key());
-        $this->assertEquals('survival', $nodes->get('permissions.test1')->contextSet()->get(0)->value());
-        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test1')->contextSet()->get(1)->key());
-        $this->assertEquals('lobby', $nodes->get('permissions.test1')->contextSet()->get(1)->value());
+        $this->assertCount(2, $nodes->get('permissions.test1')->contexts());
+        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test1')->contexts()->get(0)->key());
+        $this->assertEquals('survival', $nodes->get('permissions.test1')->contexts()->get(0)->value());
+        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test1')->contexts()->get(1)->key());
+        $this->assertEquals('lobby', $nodes->get('permissions.test1')->contexts()->get(1)->value());
 
         $this->assertEquals('permissions.test2', $nodes->get('permissions.test2')->key());
         $this->assertEquals(NodeType::Permission, $nodes->get('permissions.test2')->type());
         $this->assertEquals('false', $nodes->get('permissions.test2')->value());
-        $this->assertCount(1, $nodes->get('permissions.test2')->contextSet());
-        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test2')->contextSet()->get(0)->key());
-        $this->assertEquals('survival', $nodes->get('permissions.test2')->contextSet()->get(0)->value());
+        $this->assertCount(1, $nodes->get('permissions.test2')->contexts());
+        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test2')->contexts()->get(0)->key());
+        $this->assertEquals('survival', $nodes->get('permissions.test2')->contexts()->get(0)->value());
 
         $this->assertEquals('group.mod', $nodes->get('group.mod')->key());
         $this->assertEquals(NodeType::Inheritance, $nodes->get('group.mod')->type());
         $this->assertEquals('true', $nodes->get('group.mod')->value());
-        $this->assertCount(0, $nodes->get('group.mod')->contextSet());
+        $this->assertCount(0, $nodes->get('group.mod')->contexts());
     }
 }

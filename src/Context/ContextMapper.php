@@ -5,24 +5,26 @@ namespace LuckPermsAPI\Context;
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 
-class ContextSetMapper implements Mapper {
+class ContextMapper implements Mapper {
 
     /**
      * @param array $data
-     * @return Collection<string, Context>
+     * @return Collection<Context>
      */
     public static function map(array $data): Collection {
-        $contextSet = new Collection();
+        $contexts = new Collection();
 
         foreach ($data as $contextData) {
-            $context = new Context(
+            $contexts->push(new Context(
                 $contextData['key'],
                 $contextData['value'],
-            );
-            $contextSet->push($context);
+            ));
         }
 
-        return $contextSet;
+        return $contexts;
     }
 
+    public static function mapSingle(array $data): Context {
+        return self::map($data)->first();
+    }
 }

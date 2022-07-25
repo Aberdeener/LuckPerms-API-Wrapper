@@ -10,7 +10,6 @@ use LuckPermsAPI\User\UserRepository;
 
 class Session {
 
-    private static Session $instance;
     public HttpClient $httpClient;
 
     /**
@@ -20,8 +19,6 @@ class Session {
         $this->httpClient = $httpClient;
 
         $this->validateConnection();
-
-        self::$instance = $this;
     }
 
     /**
@@ -33,10 +30,6 @@ class Session {
         } catch (GuzzleException $e) {
             throw new LuckPermsConnectionException("Could not connect to LuckPerms API: {$e->getMessage()}");
         }
-    }
-
-    public static function instance(): Session {
-        return self::$instance;
     }
 
     public function userRepository(): UserRepository {

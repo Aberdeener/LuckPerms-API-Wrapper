@@ -15,16 +15,20 @@ class NodeMapper implements Mapper {
         $nodes = new Collection();
 
         foreach ($data as $nodeData) {
-            $node = new Node(
+            $nodes->put($nodeData['key'], new Node(
                 $nodeData['key'],
                 $nodeData['type'],
                 $nodeData['value'],
                 $nodeData['context'],
-            );
-            $nodes->put($nodeData['key'], $node);
+                $nodeData['expiry'] ?? 0,
+            ));
         }
 
         return $nodes;
+    }
+
+    public static function mapSingle(array $data): Node {
+        return self::map($data)->first();
     }
 
 }

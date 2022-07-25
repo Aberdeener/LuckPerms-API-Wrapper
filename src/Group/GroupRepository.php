@@ -2,22 +2,18 @@
 
 namespace LuckPermsAPI\Group;
 
-use Illuminate\Support\LazyCollection;
 use LuckPermsAPI\Contracts\Repository;
-use LuckPermsAPI\Session;
 
-class GroupRepository implements Repository {
-
-    public static function get(Session $session): self {
-        // TODO: Implement get() method.
-    }
-
-    public function all(): LazyCollection {
-        // TODO: Implement all() method.
-    }
+class GroupRepository extends Repository {
 
     public function load(string $identifier): Group {
-        // TODO: Implement get() method.
+        return $this->objects->getOrPut($identifier, function () use ($identifier) {
+            $response = $this->session->httpClient->get("/groups/{$identifier}");
+
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            return GroupMapper::mapSingle($data);
+        });
     }
 
 }

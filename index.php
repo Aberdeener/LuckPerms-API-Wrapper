@@ -18,10 +18,11 @@ try {
 
 $user = $session->userRepository()->load('Aberdeener');
 
-foreach ($user->nodes() as $node) {
+foreach ($user->rawNodes() as $node) {
     echo $node->key() . ': ' . $node->value();
-    foreach ($node->contextSet() as $context) {
-        echo $context->key() . '=' . $context->value();
+    echo $node->expiry();
+    foreach ($node->contexts() as $context) {
+        echo $context->key()->name . '=' . $context->value();
     }
 }
 
@@ -29,10 +30,25 @@ foreach ($user->groups() as $group) {
     echo $group->name();
     echo $group->displayName();
     echo $group->weight();
-    foreach ($group->nodes() as $node) {
+    echo $group->permissions();
+    echo $group->contexts();
+    echo $group->expiry();
+    foreach ($group->rawNodes() as $node) {
         echo $node->key() . ': ' . $node->value();
-        foreach ($node->contextSet() as $context) {
-            echo $context->key() . '=' . $context->value();
+        foreach ($node->contexts() as $context) {
+            echo $context->key()->name . '=' . $context->value();
         }
+    }
+}
+
+$group = $session->groupRepository()->load('Admin');
+echo $group->name();
+echo $group->displayName();
+echo $group->weight();
+echo $group->permissions();
+foreach ($group->rawNodes() as $node) {
+    echo $node->key() . ': ' . $node->value();
+    foreach ($node->contexts() as $context) {
+        echo $context->key()->name . '=' . $context->value();
     }
 }

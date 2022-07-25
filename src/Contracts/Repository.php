@@ -2,15 +2,24 @@
 
 namespace LuckPermsAPI\Contracts;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use LuckPermsAPI\Session;
 
-interface Repository {
+abstract class Repository {
 
-    public static function get(Session $session): self;
+    protected Session $session;
+    private static Repository $instance;
+    protected Collection $objects;
 
-    public function all(): LazyCollection;
+    private function __construct(Session $session) {
+        $this->session = $session;
+        $this->objects = new Collection();
+    }
 
-    public function load(string $identifier);
+    final public static function get(Session $session): static {
+        return self::$instance ??= new static($session);
+    }
 
+    abstract public function load(string $identifier);
 }

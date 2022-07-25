@@ -4,24 +4,34 @@ namespace LuckPermsAPI\Group;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
-use LuckPermsAPI\Node\Node;
-use LuckPermsAPI\Session;
 
 class GroupMapper implements Mapper {
 
     /**
-     * @param Node[] $data
+     * @param array $data
      * @return Collection<Group>
      */
     public static function map(array $data): Collection {
         $groups = new Collection();
-        $groupRepository = GroupRepository::get(Session::instance());
 
-        foreach ($data as $groupNode) {
-            $groupName = explode('.', $groupNode->value())[0];
-            $groups->put($groupName, $groupRepository->load($groupName));
+        foreach ($data as $groupData) {
+            $groups->put($groupData['name'], new Group(
+                $groupData['name'],
+                $groupData['displayName'],
+                $groupData['weight'],
+                $groupData['metadata'],
+                $groupData['nodes'],
+            ));
         }
 
         return $groups;
+    }
+
+    /**
+     * @param array $data
+     * @return Group
+     */
+    public static function mapSingle(array $data): Group {
+        return self::map($data)->first();
     }
 }

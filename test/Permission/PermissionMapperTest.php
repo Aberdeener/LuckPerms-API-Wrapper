@@ -1,12 +1,13 @@
 <?php
 
+use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Node\NodeMapper;
 use LuckPermsAPI\Permission\PermissionMapper;
 
 class PermissionMapperTest extends \PHPUnit\Framework\TestCase {
 
-    public function test_permission_mapper_can_map_permission_data_to_permission_objects() {
-        $permissionData = [
+    public function test_permission_mapper_can_map_permission_data_to_permission_objects(): void {
+        $permissionNodes = [
             [
                 'key' => 'test.permission1',
                 'type' => 'permission',
@@ -26,12 +27,20 @@ class PermissionMapperTest extends \PHPUnit\Framework\TestCase {
             ],
         ];
 
-        $permissions = PermissionMapper::map(NodeMapper::map($permissionData)->toArray());
+        $permissions = PermissionMapper::map($permissionNodes);
         $this->assertCount(2, $permissions);
-        $this->assertEquals('test.permission1', $permissions->get(0)->name());
-        $this->assertTrue($permissions->get(0)->value());
-        $this->assertEquals('test.permission2', $permissions->get(1)->name());
-        $this->assertFalse($permissions->get(1)->value());
+
+        $permission = $permissions->get(0);
+        $this->assertEquals('test.permission1', $permission->name());
+        $this->assertTrue($permission->value());
+        $this->assertCount(0, $permission->contexts());
+
+        $permission = $permissions->get(1);
+        $this->assertEquals('test.permission2', $permission->name());
+        $this->assertFalse($permission->value());
+        $this->assertCount(1, $permission->contexts());
+        $this->assertEquals(ContextKey::World, $permission->contexts()->first()->key());
+        $this->assertEquals('hub', $permission->contexts()->first()->value());
     }
 
 }

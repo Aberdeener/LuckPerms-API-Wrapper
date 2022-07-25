@@ -6,6 +6,6 @@ use Exception;
 
 class LuckPermsConnectionException extends Exception {
 
-
+    // ...
 
 }
