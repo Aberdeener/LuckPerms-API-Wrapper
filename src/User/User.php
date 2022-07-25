@@ -2,21 +2,18 @@
 
 namespace LuckPermsAPI\User;
 
-use Illuminate\Support\Collection;
 use LuckPermsAPI\Concerns\HasPermissions;
-use LuckPermsAPI\Concerns\HasRawNodes;
+use LuckPermsAPI\Concerns\HasNodes;
 use LuckPermsAPI\Concerns\HasUserGroups;
 
 class User {
 
-    use HasRawNodes;
+    use HasNodes;
     use HasPermissions;
     use HasUserGroups;
 
     private string $username;
     private string $uniqueId;
-
-    private Collection $nodes;
 
     public function __construct(
         string $username,
@@ -25,7 +22,7 @@ class User {
     ) {
         $this->username = $username;
         $this->uniqueId = $uniqueId;
-        $this->rawNodes = $nodes;
+        $this->nodes = $nodes;
     }
 
     public function username(): string {

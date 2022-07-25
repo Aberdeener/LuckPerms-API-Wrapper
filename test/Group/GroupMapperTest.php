@@ -73,7 +73,7 @@ class GroupMapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('Test 1', $group->displayName());
         $this->assertEquals(1, $group->weight());
         $this->assertCount(0, $group->metadata());
-        $this->assertCount(2, $group->rawNodes());
+        $this->assertCount(2, $group->nodes());
         $permission = $group->permissions()->get(0);
         $this->assertEquals('permissions.test1', $permission->name());
         $this->assertTrue($permission->value());
@@ -90,7 +90,7 @@ class GroupMapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('Test 2', $group->displayName());
         $this->assertEquals(2, $group->weight());
         $this->assertCount(0, $group->metadata());
-        $this->assertCount(1, $group->rawNodes());
+        $this->assertCount(1, $group->nodes());
         $permission = $group->permissions()->get(0);
         $this->assertEquals('permissions.test2', $permission->name());
         $this->assertFalse($permission->value());

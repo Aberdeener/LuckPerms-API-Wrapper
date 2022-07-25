@@ -58,7 +58,7 @@ class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('9490b898-856a-4aae-8de3-2986d007269b', $user->uniqueId());
         $this->assertSame('Aberdeener', $user->username());
 
-        $this->assertCount(3, $user->rawNodes());
+        $this->assertCount(3, $user->nodes());
 
         $this->assertCount(2, $user->groups());
         $group = $user->groups()->first();

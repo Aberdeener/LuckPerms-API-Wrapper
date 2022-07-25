@@ -18,7 +18,7 @@ try {
 
 $user = $session->userRepository()->load('Aberdeener');
 
-foreach ($user->rawNodes() as $node) {
+foreach ($user->nodes() as $node) {
     echo $node->key() . ': ' . $node->value();
     echo $node->expiry();
     foreach ($node->contexts() as $context) {
@@ -33,7 +33,7 @@ foreach ($user->groups() as $group) {
     echo $group->permissions();
     echo $group->contexts();
     echo $group->expiry();
-    foreach ($group->rawNodes() as $node) {
+    foreach ($group->nodes() as $node) {
         echo $node->key() . ': ' . $node->value();
         foreach ($node->contexts() as $context) {
             echo $context->key()->name . '=' . $context->value();
@@ -46,7 +46,7 @@ echo $group->name();
 echo $group->displayName();
 echo $group->weight();
 echo $group->permissions();
-foreach ($group->rawNodes() as $node) {
+foreach ($group->nodes() as $node) {
     echo $node->key() . ': ' . $node->value();
     foreach ($node->contexts() as $context) {
         echo $context->key()->name . '=' . $context->value();

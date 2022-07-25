@@ -3,11 +3,11 @@
 namespace LuckPermsAPI\Group;
 
 use LuckPermsAPI\Concerns\HasPermissions;
-use LuckPermsAPI\Concerns\HasRawNodes;
+use LuckPermsAPI\Concerns\HasNodes;
 
 class Group {
 
-    use HasRawNodes;
+    use HasNodes;
     use HasPermissions;
 
     private string $name;
@@ -26,7 +26,7 @@ class Group {
         $this->displayName = $displayName;
         $this->weight = $weight;
         $this->metadata = $metadata;
-        $this->rawNodes = $nodes;
+        $this->nodes = $nodes;
     }
 
     public function name(): string {
@@ -51,7 +51,7 @@ class Group {
             $this->displayName(),
             $this->weight(),
             $this->metadata(),
-            $this->rawNodes(),
+            $this->nodes(),
             $contexts,
             $expiry,
         );

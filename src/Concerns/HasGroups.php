@@ -13,7 +13,7 @@ trait HasGroups {
      * @return Collection<Group>
      */
     final public function groups(): Collection {
-        return GroupMapper::map(collect($this->rawNodes)->filter(function (array $node) {
+        return GroupMapper::map(collect($this->nodes)->filter(function (array $node) {
             return NodeType::of($node['type']) === NodeType::Inheritance;
         })->toArray());
     }

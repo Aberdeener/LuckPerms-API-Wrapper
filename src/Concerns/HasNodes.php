@@ -6,15 +6,15 @@ use Illuminate\Support\Collection;
 use LuckPermsAPI\Node\Node;
 use LuckPermsAPI\Node\NodeMapper;
 
-trait HasRawNodes {
+trait HasNodes {
 
-    private array $rawNodes;
+    private array $nodes;
 
     /**
      * @return Collection<Node>
      */
-    final public function rawNodes(): Collection {
-        return NodeMapper::map($this->rawNodes);
+    final public function nodes(): Collection {
+        return NodeMapper::map($this->nodes);
     }
 
 }

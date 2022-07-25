@@ -13,7 +13,7 @@ trait HasUserGroups {
      * @return Collection<UserGroup>
      */
     final public function groups(): Collection {
-        return UserGroupMapper::map(collect($this->rawNodes)->filter(function (array $node) {
+        return UserGroupMapper::map(collect($this->nodes)->filter(function (array $node) {
             return $node['type'] === mb_strtolower(NodeType::Inheritance->name); // yuck
         })->toArray());
     }
