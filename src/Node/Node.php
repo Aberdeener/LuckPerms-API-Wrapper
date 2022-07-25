@@ -14,7 +14,6 @@ class Node {
     private NodeType $type;
     private string $value;
 
-    // TODO: allow getting raw array data
     public function __construct(
         string $key,
         NodeType $type,
