@@ -40,4 +40,14 @@ class Node {
     public function value(): string {
         return $this->value;
     }
+
+    public function toArray(): array {
+        return [
+            'key' => $this->key,
+            'type' => $this->type,
+            'value' => $this->value,
+            'context' => $this->contexts,
+            'expiry' => $this->expiry,
+        ];
+    }
 }

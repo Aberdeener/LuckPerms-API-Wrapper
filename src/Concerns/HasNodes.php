@@ -16,5 +16,4 @@ trait HasNodes {
     final public function nodes(): Collection {
         return NodeMapper::map($this->nodes);
     }
-
 }

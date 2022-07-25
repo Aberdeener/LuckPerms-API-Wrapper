@@ -9,5 +9,4 @@ trait HasExpiry {
     final public function expiry(): int {
         return $this->expiry;
     }
-
 }
