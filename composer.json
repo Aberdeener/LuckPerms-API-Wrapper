@@ -1,0 +1,16 @@
+{
+  "require": {
+    "illuminate/collections": "^9.21",
+    "guzzlehttp/guzzle": "^7.4.5",
+    "phpunit/phpunit": "^9.5"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "symfony/var-dumper": "^6.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "LuckPermsAPI\\": "src/"
+    }
+  }
+}
