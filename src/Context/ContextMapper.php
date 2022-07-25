@@ -16,7 +16,7 @@ class ContextMapper implements Mapper {
 
         foreach ($data as $contextData) {
             $contexts->push(new Context(
-                $contextData['key'],
+                ContextKey::of($contextData['key']),
                 $contextData['value'],
             ));
         }

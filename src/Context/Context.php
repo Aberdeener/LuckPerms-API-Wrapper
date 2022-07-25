@@ -7,8 +7,11 @@ class Context {
     private ContextKey $key;
     private string $value;
 
-    public function __construct(string $key, string $value) {
-        $this->key = ContextKey::of($key);
+    public function __construct(
+        ContextKey $key, 
+        string $value
+    ) {
+        $this->key = $key;
         $this->value = $value;
     }
 

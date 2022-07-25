@@ -2,6 +2,8 @@
 
 namespace LuckPermsAPI\Node;
 
+use LuckPermsAPI\Exception\InvalidNodeTypeException;
+
 enum NodeType {
 
     case Inheritance;
@@ -11,7 +13,7 @@ enum NodeType {
         return match($type) {
             'inheritance' => self::Inheritance,
             'permission' => self::Permission,
-            default => null,
+            default => throw new InvalidNodeTypeException("Invalid NodeType: {$type}"),
         };
     }
 

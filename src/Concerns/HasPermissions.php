@@ -14,7 +14,7 @@ trait HasPermissions {
      */
     final public function permissions(): Collection {
         return PermissionMapper::map(collect($this->rawNodes)->filter(function(array $node) {
-            return $node['type'] === mb_strtolower(NodeType::Permission->name); // yuck
+            return NodeType::of($node['type']) === NodeType::Permission;
         })->toArray());
     }
 }

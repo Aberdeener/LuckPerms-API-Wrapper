@@ -14,7 +14,7 @@ trait HasGroups {
      */
     final public function groups(): Collection {
         return GroupMapper::map(collect($this->rawNodes)->filter(function (array $node) {
-            return $node['type'] === mb_strtolower(NodeType::Inheritance->name);
+            return NodeType::of($node['type']) === NodeType::Inheritance;
         })->toArray());
     }
 

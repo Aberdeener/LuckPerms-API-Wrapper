@@ -2,9 +2,7 @@
 
 namespace LuckPermsAPI\Exception;
 
-use Exception;
-
-class LuckPermsConnectionException extends Exception {
+class LuckPermsConnectionException extends LuckPermsClientException {
 
     // ...
 

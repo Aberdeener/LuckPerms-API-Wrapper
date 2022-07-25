@@ -17,7 +17,7 @@ class NodeMapper implements Mapper {
         foreach ($data as $nodeData) {
             $nodes->put($nodeData['key'], new Node(
                 $nodeData['key'],
-                $nodeData['type'],
+                NodeType::of($nodeData['type']),
                 $nodeData['value'],
                 $nodeData['context'],
                 $nodeData['expiry'] ?? 0,

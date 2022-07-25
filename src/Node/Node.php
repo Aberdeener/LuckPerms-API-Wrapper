@@ -14,15 +14,16 @@ class Node {
     private NodeType $type;
     private string $value;
 
+    // TODO: allow getting raw array data
     public function __construct(
         string $key,
-        string $type,
+        NodeType $type,
         string $value,
         array $contexts,
         int $expiry,
     ) {
         $this->key = $key;
-        $this->type = NodeType::of($type);
+        $this->type = $type;
         $this->value = $value;
         $this->contexts = $contexts;
         $this->expiry = $expiry;
