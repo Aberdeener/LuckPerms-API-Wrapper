@@ -6,7 +6,7 @@ jobs:
   phpstan:
     name: "PHPStan"
 
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -14,7 +14,6 @@ jobs:
         php-version:
           - "8.1"
           - "8.2"
-        operating-system: [ubuntu-latest, windows-latest]
 
     steps:
       - name: "Checkout"
