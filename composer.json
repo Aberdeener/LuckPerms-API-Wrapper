@@ -6,7 +6,8 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "symfony/var-dumper": "^6.1"
+    "symfony/var-dumper": "^6.1",
+    "phpstan/phpstan": "^1.8"
   },
   "autoload": {
     "psr-4": {

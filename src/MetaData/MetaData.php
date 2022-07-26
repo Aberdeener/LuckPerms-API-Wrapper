@@ -14,8 +14,14 @@ class MetaData {
         $this->meta = $meta;
     }
 
-    final public function meta(): Collection {
+    public function meta(): Collection {
         return $this->meta;
+    }
+
+    public function toArray(): array {
+        return [
+            'meta' => $this->meta->toArray()
+        ];
     }
 
 }

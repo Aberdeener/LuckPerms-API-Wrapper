@@ -4,6 +4,7 @@ namespace LuckPermsAPI\Group;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
+use LuckPermsAPI\Node\Node;
 
 class UserGroupMapper implements Mapper {
 
@@ -22,8 +23,10 @@ class UserGroupMapper implements Mapper {
                 $group->name(),
                 $group->displayName(),
                 $group->weight(),
-                $group->metadata(),
-                $group->nodes(),
+                $group->metaData()->toArray(),
+                $group->nodes()->map(function (Node $node) {
+                    return $node->toArray();
+                })->toArray(),
                 $groupData['context'],
                 $groupData['expiry'] ?? 0,
             ));

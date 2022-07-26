@@ -1,0 +1,36 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Tests"
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    name: "Tests"
+
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.1"
+          - "8.2"
+        operating-system: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-progress --ignore-platform-reqs"
+
+      - name: "Tests"
+        run: |
+          composer install --ignore-platform-reqs
+          vendor/bin/phpunit tests

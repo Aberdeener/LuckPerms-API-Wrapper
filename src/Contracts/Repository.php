@@ -3,7 +3,6 @@
 namespace LuckPermsAPI\Contracts;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\LazyCollection;
 use LuckPermsAPI\Session;
 
 abstract class Repository {
