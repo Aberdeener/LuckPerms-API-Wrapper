@@ -15,12 +15,12 @@ class UserGroup extends Group {
         string $name,
         string $displayName,
         int $weight,
-        array $metadata,
+        array $metaData,
         array $nodes,
         array $contexts,
         int $expiry,
     ) {
-        parent::__construct($name, $displayName, $weight, $metadata, $nodes);
+        parent::__construct($name, $displayName, $weight, $metaData, $nodes);
         $this->contexts = $contexts;
         $this->expiry = $expiry;
     }

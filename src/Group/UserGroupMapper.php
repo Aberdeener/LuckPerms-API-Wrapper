@@ -15,8 +15,15 @@ class UserGroupMapper implements Mapper {
         $userGroups = new Collection();
 
         foreach ($data as $groupData) {
-            $groupName = explode('.', $groupData['key'])[1];
-            $userGroups->put($groupName, GroupRepository::get(null)->load($groupName)->toUserGroup(
+            $groupName = explode('group.', $groupData['key'])[1];
+            $group = GroupRepository::get(null)->load($groupName);
+
+            $userGroups->put($groupName, new UserGroup(
+                $group->name(),
+                $group->displayName(),
+                $group->weight(),
+                $group->metadata(),
+                $group->nodes(),
                 $groupData['context'],
                 $groupData['expiry'] ?? 0,
             ));

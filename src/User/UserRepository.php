@@ -16,6 +16,7 @@ class UserRepository extends Repository {
                 $data['username'],
                 $data['uniqueId'],
                 $data['nodes'],
+                $data['metaData'],
             );
         });
     }

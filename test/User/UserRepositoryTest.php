@@ -51,6 +51,14 @@ class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
                     ],
                 ],
             ],
+            'metaData' => [
+                'meta' => [
+                    'test' => 'test value',
+                ],
+                'prefix' => 'prefix!',
+                'suffix' => 'suffix!',
+                'primaryGroup' => 'staff',
+            ],
         ], JSON_THROW_ON_ERROR));
 
         $user = UserRepository::get($session)->load('9490b898-856a-4aae-8de3-2986d007269b');
@@ -82,6 +90,12 @@ class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
         $this->assertCount(1, $user->permissions()->first()->contexts());
         $this->assertSame(ContextKey::Server, $user->permissions()->first()->contexts()->first()->key());
         $this->assertSame('lobby', $user->permissions()->first()->contexts()->first()->value());
+
+        $this->assertCount(1, $user->metaData()->meta());
+        $this->assertSame('test value', $user->metaData()->meta()->get('test'));
+        $this->assertSame('prefix!', $user->metaData()->prefix());
+        $this->assertSame('suffix!', $user->metaData()->suffix());
+        $this->assertSame('staff', $user->metaData()->primaryGroup());
     }
 
 }

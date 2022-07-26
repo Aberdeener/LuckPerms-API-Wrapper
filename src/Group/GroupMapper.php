@@ -19,7 +19,7 @@ class GroupMapper implements Mapper {
                 $groupData['name'],
                 $groupData['displayName'],
                 $groupData['weight'],
-                $groupData['metadata'],
+                $groupData['metaData'],
                 $groupData['nodes'],
             ));
         }
