@@ -6,14 +6,15 @@ use Illuminate\Support\Collection;
 use LuckPermsAPI\Context\Context;
 use LuckPermsAPI\Context\ContextMapper;
 
-trait HasContexts {
-
+trait HasContexts
+{
     private array $contexts;
 
     /**
      * @return Collection<Context>
      */
-    final public function contexts(): Collection {
+    final public function contexts(): Collection
+    {
         return ContextMapper::map($this->contexts);
     }
 }

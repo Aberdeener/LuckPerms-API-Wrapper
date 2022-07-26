@@ -6,13 +6,15 @@ use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 use LuckPermsAPI\Node\Node;
 
-class UserGroupMapper implements Mapper {
-
+class UserGroupMapper implements Mapper
+{
     /**
      * @param array $data
+     *
      * @return Collection<UserGroup>
      */
-    public static function map(array $data): Collection {
+    public static function map(array $data): Collection
+    {
         $userGroups = new Collection();
 
         foreach ($data as $groupData) {
@@ -35,7 +37,8 @@ class UserGroupMapper implements Mapper {
         return $userGroups;
     }
 
-    public static function mapSingle(array $data): UserGroup {
+    public static function mapSingle(array $data): UserGroup
+    {
         return self::map($data)->first();
     }
 }

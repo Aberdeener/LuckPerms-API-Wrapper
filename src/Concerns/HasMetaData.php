@@ -5,11 +5,12 @@ namespace LuckPermsAPI\Concerns;
 use LuckPermsAPI\MetaData\MetaData;
 use LuckPermsAPI\MetaData\MetaDataMapper;
 
-trait HasMetaData {
-
+trait HasMetaData
+{
     private array $metaData;
 
-    final public function metaData(): MetaData {
+    final public function metaData(): MetaData
+    {
         return MetaDataMapper::mapSingle($this->metaData);
     }
 }

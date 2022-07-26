@@ -4,10 +4,9 @@ namespace LuckPermsAPI\Group;
 
 use LuckPermsAPI\Concerns\HasContexts;
 use LuckPermsAPI\Concerns\HasExpiry;
-use LuckPermsAPI\Context\ContextMapper;
 
-class UserGroup extends Group {
-
+class UserGroup extends Group
+{
     use HasContexts;
     use HasExpiry;
 
@@ -24,5 +23,4 @@ class UserGroup extends Group {
         $this->contexts = $contexts;
         $this->expiry = $expiry;
     }
-
 }

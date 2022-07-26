@@ -2,12 +2,11 @@
 
 namespace LuckPermsAPI\Config;
 
-class LuckPermsClientConfig {
-
+class LuckPermsClientConfig
+{
     public function __construct(
         readonly string $baseUri,
         readonly string $apiKey
     ) {
     }
-
 }

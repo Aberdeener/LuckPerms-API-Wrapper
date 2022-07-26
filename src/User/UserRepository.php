@@ -4,9 +4,10 @@ namespace LuckPermsAPI\User;
 
 use LuckPermsAPI\Contracts\Repository;
 
-class UserRepository extends Repository {
-
-    public function load(string $identifier): User {
+class UserRepository extends Repository
+{
+    public function load(string $identifier): User
+    {
         return $this->objects->getOrPut($identifier, function () use ($identifier) {
             $response = $this->session->httpClient->get("/users/{$identifier}");
 
