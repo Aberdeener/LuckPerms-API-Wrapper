@@ -1,0 +1,12 @@
+risky: false
+
+version: 8.1
+
+preset: recommended
+
+finder:
+  exclude:
+    - "tests"
+
+disabled:
+  - align_double_arrow
