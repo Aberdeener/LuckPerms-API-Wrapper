@@ -5,13 +5,15 @@ namespace LuckPermsAPI\Group;
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 
-class GroupMapper implements Mapper {
-
+class GroupMapper implements Mapper
+{
     /**
      * @param array $data
+     *
      * @return Collection<Group>
      */
-    public static function map(array $data): Collection {
+    public static function map(array $data): Collection
+    {
         $groups = new Collection();
 
         foreach ($data as $groupData) {
@@ -29,9 +31,11 @@ class GroupMapper implements Mapper {
 
     /**
      * @param array $data
+     *
      * @return Group
      */
-    public static function mapSingle(array $data): Group {
+    public static function mapSingle(array $data): Group
+    {
         return self::map($data)->first();
     }
 }

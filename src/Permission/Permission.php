@@ -4,8 +4,8 @@ namespace LuckPermsAPI\Permission;
 
 use LuckPermsAPI\Concerns\HasContexts;
 
-class Permission {
-
+class Permission
+{
     use HasContexts;
 
     private string $name;
@@ -21,11 +21,13 @@ class Permission {
         $this->contexts = $contexts;
     }
 
-    public function name(): string {
+    public function name(): string
+    {
         return $this->name;
     }
 
-    public function value(): bool {
+    public function value(): bool
+    {
         return $this->value === 'true';
     }
 }

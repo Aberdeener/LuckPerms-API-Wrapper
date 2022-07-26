@@ -2,16 +2,17 @@
 
 namespace LuckPermsAPI\Context;
 
-enum ContextKey {
-
+enum ContextKey
+{
     case Server;
     case World;
     case GameMode;
     case Dimension;
     case Proxy;
 
-    public static function of(string $key): ContextKey {
-        return match($key) {
+    public static function of(string $key): ContextKey
+    {
+        return match ($key) {
             'server' => self::Server,
             'world' => self::World,
             'gamemode' => self::GameMode,
@@ -20,5 +21,4 @@ enum ContextKey {
             default => null, // returning null as custom context keys are allowed... not sure how to handle
         };
     }
-
 }

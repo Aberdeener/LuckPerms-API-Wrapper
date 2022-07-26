@@ -8,14 +8,15 @@ use LuckPermsAPI\Exception\LuckPermsConnectionException;
 use LuckPermsAPI\Group\GroupRepository;
 use LuckPermsAPI\User\UserRepository;
 
-class Session {
-
+class Session
+{
     public HttpClient $httpClient;
 
     /**
      * @throws LuckPermsConnectionException
      */
-    public function __construct(HttpClient $httpClient) {
+    public function __construct(HttpClient $httpClient)
+    {
         $this->httpClient = $httpClient;
 
         $this->validateConnection();
@@ -24,7 +25,8 @@ class Session {
     /**
      * @throws LuckPermsConnectionException
      */
-    private function validateConnection(): void {
+    private function validateConnection(): void
+    {
         try {
             $this->httpClient->get('/');
         } catch (GuzzleException $e) {
@@ -32,12 +34,13 @@ class Session {
         }
     }
 
-    public function userRepository(): UserRepository {
+    public function userRepository(): UserRepository
+    {
         return UserRepository::get($this);
     }
 
-    public function groupRepository(): GroupRepository {
+    public function groupRepository(): GroupRepository
+    {
         return GroupRepository::get($this);
     }
-
 }

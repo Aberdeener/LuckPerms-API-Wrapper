@@ -2,13 +2,13 @@
 
 namespace LuckPermsAPI\User;
 
-use LuckPermsAPI\Concerns\HasPermissions;
 use LuckPermsAPI\Concerns\HasNodes;
+use LuckPermsAPI\Concerns\HasPermissions;
 use LuckPermsAPI\Concerns\HasUserGroups;
 use LuckPermsAPI\Concerns\HasUserMetaData;
 
-class User {
-
+class User
+{
     use HasNodes;
     use HasPermissions;
     use HasUserGroups;
@@ -29,11 +29,13 @@ class User {
         $this->metaData = $metaData;
     }
 
-    public function username(): string {
+    public function username(): string
+    {
         return $this->username;
     }
 
-    public function uniqueId(): string {
+    public function uniqueId(): string
+    {
         return $this->uniqueId;
     }
 }

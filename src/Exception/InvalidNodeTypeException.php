@@ -2,8 +2,7 @@
 
 namespace LuckPermsAPI\Exception;
 
-class InvalidNodeTypeException extends LuckPermsClientException {
-
+class InvalidNodeTypeException extends LuckPermsClientException
+{
     // ...
-
 }

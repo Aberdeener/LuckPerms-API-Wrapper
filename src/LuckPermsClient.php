@@ -5,8 +5,8 @@ namespace LuckPermsAPI;
 use GuzzleHttp\Client as HttpClient;
 use LuckPermsAPI\Config\LuckPermsClientConfig;
 
-class LuckPermsClient {
-
+class LuckPermsClient
+{
     /**
      * @throws Exception\LuckPermsConnectionException
      */
@@ -15,7 +15,7 @@ class LuckPermsClient {
         return new Session(new HttpClient([
             'base_uri' => $config->baseUri,
             'headers' => [
-                'Authorization' => 'Bearer ' . $config->apiKey,
+                'Authorization' => 'Bearer '.$config->apiKey,
             ],
         ]));
     }

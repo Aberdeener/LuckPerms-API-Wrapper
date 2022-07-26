@@ -8,12 +8,13 @@ use LuckPermsAPI\Group\UserGroupMapper;
 use LuckPermsAPI\Node\Node;
 use LuckPermsAPI\Node\NodeType;
 
-trait HasUserGroups {
-
+trait HasUserGroups
+{
     /**
      * @return Collection<UserGroup>
      */
-    final public function groups(): Collection {
+    final public function groups(): Collection
+    {
         return UserGroupMapper::map($this->nodes()->filter(function (Node $node) {
             return $node->type() === NodeType::Inheritance;
         })->map(function (Node $node) {

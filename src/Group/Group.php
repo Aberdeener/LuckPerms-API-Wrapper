@@ -3,11 +3,11 @@
 namespace LuckPermsAPI\Group;
 
 use LuckPermsAPI\Concerns\HasMetaData;
-use LuckPermsAPI\Concerns\HasPermissions;
 use LuckPermsAPI\Concerns\HasNodes;
+use LuckPermsAPI\Concerns\HasPermissions;
 
-class Group {
-
+class Group
+{
     use HasNodes;
     use HasPermissions;
     use HasMetaData;
@@ -30,15 +30,18 @@ class Group {
         $this->nodes = $nodes;
     }
 
-    public function name(): string {
+    public function name(): string
+    {
         return $this->name;
     }
 
-    public function displayName(): string {
+    public function displayName(): string
+    {
         return $this->displayName;
     }
 
-    public function weight(): int {
+    public function weight(): int
+    {
         return $this->weight;
     }
 }

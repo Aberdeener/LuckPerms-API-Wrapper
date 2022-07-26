@@ -5,8 +5,8 @@ namespace LuckPermsAPI\Node;
 use LuckPermsAPI\Concerns\HasContexts;
 use LuckPermsAPI\Concerns\HasExpiry;
 
-class Node {
-
+class Node
+{
     use HasContexts;
     use HasExpiry;
 
@@ -28,19 +28,23 @@ class Node {
         $this->expiry = $expiry;
     }
 
-    public function key(): string {
+    public function key(): string
+    {
         return $this->key;
     }
 
-    public function type(): NodeType {
+    public function type(): NodeType
+    {
         return $this->type;
     }
 
-    public function value(): string {
+    public function value(): string
+    {
         return $this->value;
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'key' => $this->key,
             'type' => $this->type,

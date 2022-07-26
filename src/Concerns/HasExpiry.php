@@ -2,11 +2,12 @@
 
 namespace LuckPermsAPI\Concerns;
 
-trait HasExpiry {
-
+trait HasExpiry
+{
     private int $expiry;
 
-    final public function expiry(): int {
+    final public function expiry(): int
+    {
         return $this->expiry;
     }
 }

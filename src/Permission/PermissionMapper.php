@@ -5,13 +5,15 @@ namespace LuckPermsAPI\Permission;
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 
-class PermissionMapper implements Mapper {
-
+class PermissionMapper implements Mapper
+{
     /**
      * @param array $data
+     *
      * @return Collection<Permission>
      */
-    public static function map(array $data): Collection {
+    public static function map(array $data): Collection
+    {
         $permissions = new Collection();
 
         foreach ($data as $permissionData) {
@@ -25,7 +27,8 @@ class PermissionMapper implements Mapper {
         return $permissions;
     }
 
-    public static function mapSingle(array $data): Permission {
+    public static function mapSingle(array $data): Permission
+    {
         return self::map($data)->first();
     }
 }
