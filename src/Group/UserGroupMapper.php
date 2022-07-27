@@ -7,6 +7,7 @@ use LuckPermsAPI\Contracts\Mapper;
 use LuckPermsAPI\Exception\ClientNotInitiatedException;
 use LuckPermsAPI\LuckPermsClient;
 use LuckPermsAPI\Node\Node;
+use RuntimeException;
 
 class UserGroupMapper implements Mapper
 {
@@ -43,6 +44,6 @@ class UserGroupMapper implements Mapper
 
     public static function mapSingle(array $data): UserGroup
     {
-        return self::map($data)->first();
+        throw new RuntimeException('Not implemented');
     }
 }

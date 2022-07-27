@@ -4,6 +4,8 @@ namespace LuckPermsAPI\Node;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
+use LuckPermsAPI\Exception\InvalidNodeTypeException;
+use RuntimeException;
 
 class NodeMapper implements Mapper
 {
@@ -11,6 +13,7 @@ class NodeMapper implements Mapper
      * @param array $data
      *
      * @return Collection<string, Node>
+     * @throws InvalidNodeTypeException
      */
     public static function map(array $data): Collection
     {
@@ -19,7 +22,7 @@ class NodeMapper implements Mapper
         foreach ($data as $nodeData) {
             $nodes->put($nodeData['key'], new Node(
                 $nodeData['key'],
-                NodeType::of($nodeData['type']),
+                NodeType::tryFrom($nodeData['type']) ?? throw new InvalidNodeTypeException("Invalid NodeType: {$nodeData['type']}"),
                 $nodeData['value'],
                 $nodeData['context'],
                 $nodeData['expiry'] ?? 0,
@@ -31,6 +34,6 @@ class NodeMapper implements Mapper
 
     public static function mapSingle(array $data): Node
     {
-        return self::map($data)->first();
+        throw new RuntimeException('Not implemented');
     }
 }

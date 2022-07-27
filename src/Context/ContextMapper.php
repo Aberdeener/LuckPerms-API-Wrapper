@@ -4,6 +4,7 @@ namespace LuckPermsAPI\Context;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
+use RuntimeException;
 
 class ContextMapper implements Mapper
 {
@@ -18,7 +19,7 @@ class ContextMapper implements Mapper
 
         foreach ($data as $contextData) {
             $contexts->push(new Context(
-                ContextKey::of($contextData['key']),
+                ContextKey::from($contextData['key']),
                 $contextData['value'],
             ));
         }
@@ -28,6 +29,6 @@ class ContextMapper implements Mapper
 
     public static function mapSingle(array $data): Context
     {
-        return self::map($data)->first();
+        throw new RuntimeException('Not implemented');
     }
 }
