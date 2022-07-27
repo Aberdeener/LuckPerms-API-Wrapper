@@ -4,6 +4,8 @@ namespace LuckPermsAPI\Group;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
+use LuckPermsAPI\Exception\ClientNotInitiatedException;
+use LuckPermsAPI\LuckPermsClient;
 use LuckPermsAPI\Node\Node;
 
 class UserGroupMapper implements Mapper
@@ -12,6 +14,7 @@ class UserGroupMapper implements Mapper
      * @param array $data
      *
      * @return Collection<UserGroup>
+     * @throws ClientNotInitiatedException
      */
     public static function map(array $data): Collection
     {
@@ -19,7 +22,7 @@ class UserGroupMapper implements Mapper
 
         foreach ($data as $groupData) {
             $groupName = explode('group.', $groupData['key'])[1];
-            $group = GroupRepository::get(null)->load($groupName);
+            $group = LuckPermsClient::session()->groupRepository()->load($groupName);
 
             $userGroups->put($groupName, new UserGroup(
                 $group->name(),
@@ -29,6 +32,7 @@ class UserGroupMapper implements Mapper
                 $group->nodes()->map(function (Node $node) {
                     return $node->toArray();
                 })->toArray(),
+                $groupData['value'],
                 $groupData['context'],
                 $groupData['expiry'] ?? 0,
             ));

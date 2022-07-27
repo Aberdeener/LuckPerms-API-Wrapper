@@ -2,23 +2,39 @@
 
 namespace LuckPermsAPI\User;
 
+use GuzzleHttp\Exception\GuzzleException;
 use LuckPermsAPI\Contracts\Repository;
+use LuckPermsAPI\Exception\UserNotFoundException;
 
 class UserRepository extends Repository
 {
+    /**
+     * @throws GuzzleException
+     * @throws UserNotFoundException
+     */
     public function load(string $identifier): User
     {
-        return $this->objects->getOrPut($identifier, function () use ($identifier) {
-            $response = $this->session->httpClient->get("/users/{$identifier}");
+        if ($this->objects->contains($identifier)) {
+            return $this->objects->get($identifier);
+        }
 
-            $data = json_decode($response->getBody()->getContents(), true);
+        $response = $this->session->httpClient->get("/users/{$identifier}");
 
-            return new User(
-                $data['username'],
-                $data['uniqueId'],
-                $data['nodes'],
-                $data['metaData'],
-            );
-        });
+        if ($response->getStatusCode() === 404) {
+            throw new UserNotFoundException("User with identifier '{$identifier}' not found");
+        }
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $user = new User(
+            $data['username'],
+            $data['uniqueId'],
+            $data['nodes'],
+            $data['metaData'],
+        );
+
+        $this->objects->put($identifier, $user);
+
+        return $user;
     }
 }

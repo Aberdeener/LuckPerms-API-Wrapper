@@ -36,6 +36,6 @@ class GroupMapper implements Mapper
      */
     public static function mapSingle(array $data): Group
     {
-        return self::map($data)->first();
+        return self::map([$data])->first();
     }
 }

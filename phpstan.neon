@@ -6,3 +6,5 @@ parameters:
         - vendor/
         - tests/
         - index.php
+    ignoreErrors:
+        - '#Unsafe usage of new static#'

@@ -8,7 +8,7 @@ use LuckPermsAPI\Session;
 abstract class Repository
 {
     protected Session $session;
-    private static Repository $instance;
+    private static array $instances = [];
     protected Collection $objects;
 
     private function __construct(Session $session)
@@ -19,7 +19,7 @@ abstract class Repository
 
     final public static function get(Session $session): static
     {
-        return self::$instance ??= new static($session);
+        return self::$instances[static::class] ??= new static($session);
     }
 
     abstract public function load(string $identifier);
