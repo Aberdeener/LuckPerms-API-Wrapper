@@ -26,6 +26,6 @@ class LuckPermsClient
      */
     public static function session(): Session
     {
-        return self::$session ?? throw new ClientNotInitiatedException;
+        return self::$session ?? throw new ClientNotInitiatedException();
     }
 }

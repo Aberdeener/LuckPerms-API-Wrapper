@@ -12,8 +12,9 @@ class NodeMapper implements Mapper
     /**
      * @param array $data
      *
-     * @return Collection<string, Node>
      * @throws InvalidNodeTypeException
+     *
+     * @return Collection<string, Node>
      */
     public static function map(array $data): Collection
     {

@@ -14,8 +14,9 @@ class UserGroupMapper implements Mapper
     /**
      * @param array $data
      *
-     * @return Collection<UserGroup>
      * @throws ClientNotInitiatedException
+     *
+     * @return Collection<UserGroup>
      */
     public static function map(array $data): Collection
     {
