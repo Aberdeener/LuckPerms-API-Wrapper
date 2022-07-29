@@ -13,7 +13,7 @@ class ContextMapper implements Mapper
      *
      * @return Collection<Context>
      */
-    public static function map(array $data): Collection
+    public function map(array $data): Collection
     {
         $contexts = new Collection();
 
@@ -27,7 +27,7 @@ class ContextMapper implements Mapper
         return $contexts;
     }
 
-    public static function mapSingle(array $data): Context
+    public function mapSingle(array $data): Context
     {
         throw new RuntimeException('Not implemented');
     }

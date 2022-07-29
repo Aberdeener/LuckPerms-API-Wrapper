@@ -1,17 +1,26 @@
 {
   "require": {
-    "illuminate/collections": "^9.21",
     "guzzlehttp/guzzle": "^7.4.5",
-    "phpunit/phpunit": "^9.5"
+    "illuminate/collections": "^9.21",
+    "illuminate/container": "^9.22"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "^6.1",
-    "phpstan/phpstan": "^1.8"
+    "phpstan/phpstan": "^1.8",
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "psr-4": {
       "LuckPermsAPI\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
     }
   }
 }

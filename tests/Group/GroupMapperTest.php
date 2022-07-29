@@ -1,10 +1,13 @@
 <?php
 
+namespace Tests\Group;
+
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Group\Group;
 use LuckPermsAPI\Group\GroupMapper;
+use Tests\TestCase;
 
-class GroupMapperTest extends \PHPUnit\Framework\TestCase {
+class GroupMapperTest extends TestCase {
 
     public function test_group_mapper_can_map_group_data_to_group_objects(): void {
         $groupNodes = [
@@ -62,7 +65,7 @@ class GroupMapperTest extends \PHPUnit\Framework\TestCase {
             ],
         ];
 
-        $groups = GroupMapper::map($groupNodes);
+        $groups = resolve(GroupMapper::class)->map($groupNodes);
 
         $this->assertCount(2, $groupNodes);
 

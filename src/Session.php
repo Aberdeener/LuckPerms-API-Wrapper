@@ -13,15 +13,30 @@ class Session
     public function __construct(HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
+
+        $this->registerContainerBindings();
+    }
+
+    private function registerContainerBindings(): void
+    {
+        $container = LuckPermsClient::container();
+
+        $container->singleton(UserRepository::class, function () {
+            return new UserRepository($this);
+        });
+
+        $container->singleton(GroupRepository::class, function () {
+            return new GroupRepository($this);
+        });
     }
 
     public function userRepository(): UserRepository
     {
-        return UserRepository::get($this);
+        return resolve(UserRepository::class);
     }
 
     public function groupRepository(): GroupRepository
     {
-        return GroupRepository::get($this);
+        return resolve(GroupRepository::class);
     }
 }

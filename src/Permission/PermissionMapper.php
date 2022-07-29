@@ -12,7 +12,7 @@ class PermissionMapper implements Mapper
      *
      * @return Collection<Permission>
      */
-    public static function map(array $data): Collection
+    public function map(array $data): Collection
     {
         $permissions = new Collection();
 
@@ -27,7 +27,7 @@ class PermissionMapper implements Mapper
         return $permissions;
     }
 
-    public static function mapSingle(array $data): Permission
+    public function mapSingle(array $data): Permission
     {
         return self::map($data)->first();
     }

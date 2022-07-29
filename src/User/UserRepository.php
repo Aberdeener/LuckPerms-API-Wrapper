@@ -24,7 +24,7 @@ class UserRepository extends Repository
             throw new UserNotFoundException("User with identifier '{$identifier}' not found");
         }
 
-        $data = json_decode($response->getBody()->getContents(), true);
+        $data = $this->json($response->getBody()->getContents());
 
         $user = new User(
             $data['username'],

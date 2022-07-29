@@ -12,7 +12,7 @@ class GroupMapper implements Mapper
      *
      * @return Collection<Group>
      */
-    public static function map(array $data): Collection
+    public function map(array $data): Collection
     {
         $groups = new Collection();
 
@@ -34,8 +34,8 @@ class GroupMapper implements Mapper
      *
      * @return Group
      */
-    public static function mapSingle(array $data): Group
+    public function mapSingle(array $data): Group
     {
-        return self::map([$data])->first();
+        return $this->map([$data])->first();
     }
 }

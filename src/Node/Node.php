@@ -47,7 +47,7 @@ class Node
     {
         return [
             'key' => $this->key,
-            'type' => $this->type,
+            'type' => $this->type->value,
             'value' => $this->value,
             'context' => $this->contexts,
             'expiry' => $this->expiry,

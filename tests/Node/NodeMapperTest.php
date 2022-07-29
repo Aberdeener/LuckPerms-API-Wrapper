@@ -1,11 +1,14 @@
 <?php
 
+namespace Tests\Node;
+
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Node\Node;
 use LuckPermsAPI\Node\NodeMapper;
 use LuckPermsAPI\Node\NodeType;
+use Tests\TestCase;
 
-class NodeMapperTest extends \PHPUnit\Framework\TestCase {
+class NodeMapperTest extends TestCase {
 
     public function test_node_mapper_can_map_node_data_to_node_objects(): void {
         $nodes = [
@@ -45,7 +48,7 @@ class NodeMapperTest extends \PHPUnit\Framework\TestCase {
             ]
         ];
 
-        $nodes = NodeMapper::map($nodes);
+        $nodes = resolve(NodeMapper::class)->map($nodes);
 
         $this->assertCount(3, $nodes);
 
@@ -64,7 +67,7 @@ class NodeMapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1111111111, $nodes->get('permissions.test1')->expiry());
         $this->assertSame([
             'key' => 'permissions.test1',
-            'type' => NodeType::Permission,
+            'type' => 'permission',
             'value' => 'true',
             'context' => [
                 [
@@ -88,7 +91,7 @@ class NodeMapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(2222222222, $nodes->get('permissions.test2')->expiry());
         $this->assertSame([
             'key' => 'permissions.test2',
-            'type' => NodeType::Permission,
+            'type' => 'permission',
             'value' => 'false',
             'context' => [
                 [
@@ -106,7 +109,7 @@ class NodeMapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(0, $nodes->get('group.mod')->expiry());
         $this->assertSame([
             'key' => 'group.mod',
-            'type' => NodeType::Inheritance,
+            'type' => 'inheritance',
             'value' => 'true',
             'context' => [],
             'expiry' => 0,

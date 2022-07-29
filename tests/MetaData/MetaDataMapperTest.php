@@ -1,8 +1,11 @@
 <?php
 
-use LuckPermsAPI\MetaData\MetaDataMapper;
+namespace Tests\MetaData;
 
-class MetaDataMapperTest extends \PHPUnit\Framework\TestCase {
+use LuckPermsAPI\MetaData\MetaDataMapper;
+use Tests\TestCase;
+
+class MetaDataMapperTest extends TestCase {
 
     public function test_metadata_mapper_can_map_metadata_data_to_metadata_object(): void {
         $metadataData = [
@@ -13,7 +16,7 @@ class MetaDataMapperTest extends \PHPUnit\Framework\TestCase {
             ],
         ];
 
-        $metaData = MetaDataMapper::mapSingle($metadataData);
+        $metaData = resolve(MetaDataMapper::class)->mapSingle($metadataData);
 
         $this->assertEquals($metadataData['meta'], $metaData->meta()->toArray());
     }

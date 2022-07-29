@@ -1,10 +1,12 @@
 <?php
 
-use LuckPermsAPI\Context\ContextKey;
-use LuckPermsAPI\Node\NodeMapper;
-use LuckPermsAPI\Permission\PermissionMapper;
+namespace Tests\Permission;
 
-class PermissionMapperTest extends \PHPUnit\Framework\TestCase {
+use LuckPermsAPI\Context\ContextKey;
+use LuckPermsAPI\Permission\PermissionMapper;
+use Tests\TestCase;
+
+class PermissionMapperTest extends TestCase {
 
     public function test_permission_mapper_can_map_permission_data_to_permission_objects(): void {
         $permissionNodes = [
@@ -27,7 +29,8 @@ class PermissionMapperTest extends \PHPUnit\Framework\TestCase {
             ],
         ];
 
-        $permissions = PermissionMapper::map($permissionNodes);
+        $permissions = resolve(PermissionMapper::class)->map($permissionNodes);
+
         $this->assertCount(2, $permissions);
 
         $permission = $permissions->get(0);

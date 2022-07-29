@@ -1,31 +1,16 @@
 <?php
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
+namespace Tests\User;
+
 use GuzzleHttp\Psr7\Response;
-use LuckPermsAPI\Config\ConfigBuilder;
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Exception\UserNotFoundException;
 use LuckPermsAPI\Group\UserGroup;
-use LuckPermsAPI\LuckPermsClient;
+use LuckPermsAPI\Node\NodeType;
 use LuckPermsAPI\Permission\Permission;
-use LuckPermsAPI\Session;
+use Tests\TestCase;
 
-class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
-
-    private ?Session $session;
-
-    public function setUp(): void {
-        parent::setUp();
-
-        $this->session = LuckPermsClient::make(
-            ConfigBuilder::make()
-                ->withBaseUri('http://localhost:8080')
-                ->withApiKey('12345')
-                ->build(),
-        );
-    }
+class UserRepositoryTest extends TestCase {
 
     public function test_load_will_throw_exception_if_user_not_found(): void {
         $this->session->httpClient = $this->createMockClient([
@@ -92,7 +77,25 @@ class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
                         'test' => 'test staff value',
                     ],
                 ],
-                'nodes' => []
+                'nodes' => [
+                    [
+                        'key' => 'group.helper',
+                        'type' => 'inheritance',
+                        'value' => 'true',
+                        'context' => [
+                            [
+                                'key' => 'world',
+                                'value' => 'survival',
+                            ],
+                        ],
+                    ],
+                    [
+                        'key' => 'multiverse.*',
+                        'type' => 'permission',
+                        'value' => 'true',
+                        'context' => [],
+                    ]
+                ]
             ], JSON_THROW_ON_ERROR)),
             new Response(200, [], json_encode([
                 'name' => 'member',
@@ -123,6 +126,19 @@ class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
         $this->assertCount(1, $group->contexts());
         $this->assertSame(ContextKey::World, $group->contexts()->first()->key());
         $this->assertSame('survival', $group->contexts()->first()->value());
+        $this->assertCount(2, $group->nodes());
+        $this->assertCount(1, $group->permissions());
+        $this->assertSame('group.helper', $group->nodes()->first()->key());
+        $this->assertSame(NodeType::Inheritance, $group->nodes()->first()->type());
+        $this->assertSame('true', $group->nodes()->first()->value());
+        $this->assertCount(1, $group->nodes()->first()->contexts());
+        $this->assertSame(ContextKey::World, $group->nodes()->first()->contexts()->first()->key());
+        $this->assertSame('survival', $group->nodes()->first()->contexts()->first()->value());
+        $this->assertSame('multiverse.*', $group->permissions()->first()->name());
+        $this->assertSame(NodeType::Permission, $group->nodes()->last()->type());
+        $this->assertTrue($group->permissions()->first()->value());
+        $this->assertCount(0, $group->permissions()->first()->contexts());
+
         $group = $user->groups()->last();
         $this->assertInstanceOf(UserGroup::class, $group);
         $this->assertSame('member', $group->name());
@@ -146,19 +162,4 @@ class UserRepositoryTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('staff', $user->metaData()->primaryGroup());
     }
 
-    private function createMockClient(array $queue): Client
-    {
-        $handlerStack = HandlerStack::create(
-            new MockHandler($queue),
-        );
-
-        return new Client([
-            'handler' => $handlerStack,
-            'base_uri' => 'http://localhost:8080',
-            'headers' => [
-                'Authorization' => 'Bearer 12345',
-            ],
-            'http_errors' => false,
-        ]);
-    }
 }

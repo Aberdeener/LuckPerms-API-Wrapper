@@ -15,6 +15,6 @@ trait HasContexts
      */
     final public function contexts(): Collection
     {
-        return ContextMapper::map($this->contexts);
+        return resolve(ContextMapper::class)->map($this->contexts);
     }
 }

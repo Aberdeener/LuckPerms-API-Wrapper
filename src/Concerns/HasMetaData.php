@@ -11,6 +11,6 @@ trait HasMetaData
 
     final public function metaData(): MetaData
     {
-        return MetaDataMapper::mapSingle($this->metaData);
+        return resolve(MetaDataMapper::class)->mapSingle($this->metaData);
     }
 }

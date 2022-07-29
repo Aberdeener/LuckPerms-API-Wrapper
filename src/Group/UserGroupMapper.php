@@ -4,7 +4,6 @@ namespace LuckPermsAPI\Group;
 
 use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
-use LuckPermsAPI\Exception\ClientNotInitiatedException;
 use LuckPermsAPI\LuckPermsClient;
 use LuckPermsAPI\Node\Node;
 use RuntimeException;
@@ -14,11 +13,9 @@ class UserGroupMapper implements Mapper
     /**
      * @param array $data
      *
-     * @throws ClientNotInitiatedException
-     *
      * @return Collection<UserGroup>
      */
-    public static function map(array $data): Collection
+    public function map(array $data): Collection
     {
         $userGroups = new Collection();
 
@@ -43,7 +40,7 @@ class UserGroupMapper implements Mapper
         return $userGroups;
     }
 
-    public static function mapSingle(array $data): UserGroup
+    public function mapSingle(array $data): UserGroup
     {
         throw new RuntimeException('Not implemented');
     }

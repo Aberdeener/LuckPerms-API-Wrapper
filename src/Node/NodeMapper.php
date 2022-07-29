@@ -16,7 +16,7 @@ class NodeMapper implements Mapper
      *
      * @return Collection<string, Node>
      */
-    public static function map(array $data): Collection
+    public function map(array $data): Collection
     {
         $nodes = new Collection();
 
@@ -33,7 +33,7 @@ class NodeMapper implements Mapper
         return $nodes;
     }
 
-    public static function mapSingle(array $data): Node
+    public function mapSingle(array $data): Node
     {
         throw new RuntimeException('Not implemented');
     }

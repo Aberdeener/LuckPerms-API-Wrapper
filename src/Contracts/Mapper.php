@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 interface Mapper
 {
-    public static function map(array $data): Collection;
+    public function map(array $data): Collection;
 
-    public static function mapSingle(array $data);
+    public function mapSingle(array $data);
 }

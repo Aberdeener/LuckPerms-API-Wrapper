@@ -1,8 +1,11 @@
 <?php
 
-use LuckPermsAPI\MetaData\UserMetaDataMapper;
+namespace Tests\MetaData;
 
-class UserMetaDataMapperTest extends \PHPUnit\Framework\TestCase {
+use LuckPermsAPI\MetaData\UserMetaDataMapper;
+use Tests\TestCase;
+
+class UserMetaDataMapperTest extends TestCase {
 
     public function test_usermetadata_mapper_can_map_usermetadata_data_to_usermetadata_object(): void {
         $userMetadataData = [
@@ -16,7 +19,7 @@ class UserMetaDataMapperTest extends \PHPUnit\Framework\TestCase {
             'primaryGroup' => 'staff',
         ];
 
-        $userMetaData = UserMetaDataMapper::mapSingle($userMetadataData);
+        $userMetaData = resolve(UserMetaDataMapper::class)->mapSingle($userMetadataData);
 
         $this->assertEquals($userMetadataData['meta'], $userMetaData->meta()->toArray());
         $this->assertEquals($userMetadataData['prefix'], $userMetaData->prefix());

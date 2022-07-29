@@ -1,9 +1,11 @@
 <?php
 
+namespace Tests\Context;
+
 use LuckPermsAPI\Context\Context;
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Context\ContextMapper;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ContextMapperTest extends TestCase {
 
@@ -23,7 +25,7 @@ class ContextMapperTest extends TestCase {
             ],
         ];
 
-        $contexts = ContextMapper::map($contextData);
+        $contexts = resolve(ContextMapper::class)->map($contextData);
 
         $this->assertCount(3, $contexts);
 

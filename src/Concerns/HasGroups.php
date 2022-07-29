@@ -15,10 +15,11 @@ trait HasGroups
      */
     final public function groups(): Collection
     {
-        return GroupMapper::map($this->nodes()->filter(function (Node $node) {
-            return $node->type() === NodeType::Inheritance;
-        })->map(function (Node $node) {
-            return $node->toArray();
-        })->toArray());
+        return resolve(GroupMapper::class)
+            ->map($this->nodes()->filter(function (Node $node) {
+                return $node->type() === NodeType::Inheritance;
+            })->map(function (Node $node) {
+                return $node->toArray();
+            })->toArray());
     }
 }

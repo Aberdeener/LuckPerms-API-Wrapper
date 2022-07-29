@@ -15,10 +15,11 @@ trait HasPermissions
      */
     final public function permissions(): Collection
     {
-        return PermissionMapper::map($this->nodes()->filter(function (Node $node) {
-            return $node->type() === NodeType::Permission;
-        })->map(function (Node $node) {
-            return $node->toArray();
-        })->toArray());
+        return resolve(PermissionMapper::class)
+            ->map($this->nodes()->filter(function (Node $node) {
+                return $node->type() === NodeType::Permission;
+            })->map(function (Node $node) {
+                return $node->toArray();
+            })->toArray());
     }
 }
