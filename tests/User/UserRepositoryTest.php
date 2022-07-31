@@ -8,6 +8,7 @@ use LuckPermsAPI\Exception\UserNotFoundException;
 use LuckPermsAPI\Group\UserGroup;
 use LuckPermsAPI\Node\NodeType;
 use LuckPermsAPI\Permission\Permission;
+use LuckPermsAPI\User\UserMapper;
 use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase {
@@ -21,6 +22,62 @@ class UserRepositoryTest extends TestCase {
         $this->expectExceptionMessage("User with identifier 'not-a-uuid' not found");
 
         $this->session->userRepository()->load('not-a-uuid');
+    }
+
+    public function test_load_will_not_call_api_twice(): void {
+        $this->session->httpClient = $this->createMockClient([
+            new Response(200, [], json_encode([
+                'uniqueId' => '9490b898-856a-4aae-8de3-2986d007269b',
+                'username' => 'Aberdeener',
+                'nodes' => [
+                    [
+                        'key' => 'group.staff',
+                        'type' => 'inheritance',
+                        'value' => 'true',
+                        'context' => [
+                            [
+                                'key' => 'world',
+                                'value' => 'survival',
+                            ],
+                        ],
+                    ],
+                    [
+                        'key' => 'group.member',
+                        'type' => 'inheritance',
+                        'value' => 'true',
+                        'context' => [],
+                        'expiry' => 1111111111,
+                    ],
+                    [
+                        'key' => 'minecraft.command.ban',
+                        'type' => 'permission',
+                        'value' => 'true',
+                        'context' => [
+                            [
+                                'key' => 'server',
+                                'value' => 'lobby',
+                            ],
+                        ],
+                    ],
+                ],
+                'metaData' => [
+                    'meta' => [
+                        'test' => 'test value',
+                    ],
+                    'prefix' => 'prefix!',
+                    'suffix' => 'suffix!',
+                    'primaryGroup' => 'staff',
+                ],
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $userMapperMock = $this->createMock(UserMapper::class);
+        $this->container->singleton(UserMapper::class, fn() => $userMapperMock);
+
+        $userMapperMock->expects($this->once())->method('mapSingle');
+
+        $this->session->userRepository()->load('9490b898-856a-4aae-8de3-2986d007269b');
+        $this->session->userRepository()->load('9490b898-856a-4aae-8de3-2986d007269b');
     }
 
     public function test_load_will_return_user_if_valid() {

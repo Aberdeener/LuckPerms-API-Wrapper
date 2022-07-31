@@ -14,7 +14,7 @@ class UserRepository extends Repository
      */
     public function load(string $identifier): User
     {
-        if ($this->objects->contains($identifier)) {
+        if ($this->objects->has($identifier)) {
             return $this->objects->get($identifier);
         }
 
@@ -26,12 +26,7 @@ class UserRepository extends Repository
 
         $data = $this->json($response->getBody()->getContents());
 
-        $user = new User(
-            $data['username'],
-            $data['uniqueId'],
-            $data['nodes'],
-            $data['metaData'],
-        );
+        $user = resolve(UserMapper::class)->mapSingle($data);
 
         $this->objects->put($identifier, $user);
 

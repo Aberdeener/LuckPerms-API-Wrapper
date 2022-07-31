@@ -6,7 +6,6 @@ use GuzzleHttp\Psr7\Response;
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Exception\GroupNotFoundException;
 use LuckPermsAPI\Group\GroupMapper;
-use LuckPermsAPI\LuckPermsClient;
 use LuckPermsAPI\Node\NodeType;
 use Tests\TestCase;
 
