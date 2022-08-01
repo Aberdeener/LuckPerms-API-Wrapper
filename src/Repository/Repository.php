@@ -22,6 +22,7 @@ abstract class Repository
 
     /**
      * @param string $identifier
+     *
      * @return T
      */
     abstract public function load(string $identifier);
@@ -43,6 +44,7 @@ abstract class Repository
 
     /**
      * @param Search $search
+     *
      * @return Collection<T>
      */
     abstract public function search(Search $search): Collection;

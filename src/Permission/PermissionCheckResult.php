@@ -4,8 +4,8 @@ namespace LuckPermsAPI\Permission;
 
 use LuckPermsAPI\Node\Node;
 
-class PermissionCheckResult {
-
+class PermissionCheckResult
+{
     private bool $result;
     private Node $node;
 
@@ -17,11 +17,13 @@ class PermissionCheckResult {
         $this->node = $node;
     }
 
-    public function result(): bool {
+    public function result(): bool
+    {
         return $this->result;
     }
 
-    public function node(): Node {
+    public function node(): Node
+    {
         return $this->node;
     }
 }
