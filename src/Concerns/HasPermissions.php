@@ -3,6 +3,7 @@
 namespace LuckPermsAPI\Concerns;
 
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use LuckPermsAPI\Group\Group;
 use LuckPermsAPI\LuckPermsClient;
 use LuckPermsAPI\Node\Node;
@@ -65,6 +66,7 @@ trait HasPermissions
         $prefix = match(static::class) {
             User::class => 'user',
             Group::class => 'group',
+            default => throw new InvalidArgumentException('Unsupported subclass'),
         };
 
         $identifier = $this->identifier();
@@ -77,6 +79,7 @@ trait HasPermissions
         return match(static::class) {
             User::class => 'uniqueId',
             Group::class => 'name',
+            default => throw new InvalidArgumentException('Unsupported subclass'),
         };
     }
 

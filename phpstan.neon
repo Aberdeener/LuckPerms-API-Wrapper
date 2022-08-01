@@ -5,6 +5,5 @@ parameters:
     excludePaths:
         - vendor/
         - tests/
-        - index.php
     ignoreErrors:
-        - '#Unsafe usage of new static#'
+        - 'Match arm comparison between#'
