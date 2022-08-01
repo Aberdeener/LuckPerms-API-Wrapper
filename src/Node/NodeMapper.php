@@ -2,10 +2,8 @@
 
 namespace LuckPermsAPI\Node;
 
-use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 use LuckPermsAPI\Exception\InvalidNodeTypeException;
-use RuntimeException;
 
 class NodeMapper implements Mapper
 {

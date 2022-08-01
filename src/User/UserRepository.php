@@ -9,7 +9,8 @@ use LuckPermsAPI\Repository\Search;
 
 class UserRepository extends Repository
 {
-    public function allIdentifiers(): Collection {
+    public function allIdentifiers(): Collection
+    {
         if (isset($this->identifiers)) {
             return $this->identifiers;
         }
@@ -21,7 +22,8 @@ class UserRepository extends Repository
         return $this->identifiers = collect($this->json($response->getBody()->getContents()));
     }
 
-    public function search(Search $search): Collection {
+    public function search(Search $search): Collection
+    {
         $response = $this->session->httpClient->get('/user/search', [
             'search' => $search->toArray(),
         ]);

@@ -38,6 +38,6 @@ class LuckPermsClient
      */
     public static function container(): Container
     {
-        return self::$container ?? throw new ClientNotInitiatedException;
+        return self::$container ?? throw new ClientNotInitiatedException();
     }
 }

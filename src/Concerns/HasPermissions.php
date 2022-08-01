@@ -32,7 +32,8 @@ trait HasPermissions
             });
     }
 
-    final public function hasPermission(string $permission, QueryOptions $queryOptions = null): PermissionCheckResult {
+    final public function hasPermission(string $permission, QueryOptions $queryOptions = null): PermissionCheckResult
+    {
         $route = $this->findRoute();
         $httpClient = LuckPermsClient::session()->httpClient;
 
@@ -63,7 +64,7 @@ trait HasPermissions
 
     private function findRoute(): string
     {
-        $prefix = match(static::class) {
+        $prefix = match (static::class) {
             User::class => 'user',
             Group::class => 'group',
             default => throw new InvalidArgumentException('Unsupported subclass'),
@@ -76,7 +77,7 @@ trait HasPermissions
 
     private function identifierMethod(): string
     {
-        return match(static::class) {
+        return match (static::class) {
             User::class => 'uniqueId',
             Group::class => 'name',
             default => throw new InvalidArgumentException('Unsupported subclass'),
@@ -86,6 +87,7 @@ trait HasPermissions
     private function identifier(): string
     {
         $identifierMethod = $this->identifierMethod();
+
         return $this->{$identifierMethod}();
     }
 }

@@ -4,8 +4,8 @@ namespace LuckPermsAPI\Repository;
 
 use LuckPermsAPI\Node\Node;
 
-class SearchResult {
-
+class SearchResult
+{
     private string $identifier;
     private Node $node;
 
@@ -26,5 +26,4 @@ class SearchResult {
     {
         return $this->node;
     }
-
 }

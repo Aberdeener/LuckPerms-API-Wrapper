@@ -2,7 +2,6 @@
 
 namespace LuckPermsAPI\Permission;
 
-use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 
 class PermissionMapper implements Mapper

@@ -22,9 +22,10 @@ class GroupRepository extends Repository
         return $this->identifiers = collect($this->json($response->getBody()->getContents()));
     }
 
-    public function search(Search $search): Collection {
+    public function search(Search $search): Collection
+    {
         $response = $this->session->httpClient->get('/group/search', [
-            'search' => $search->toArray()
+            'search' => $search->toArray(),
         ]);
 
         $groupMapper = resolve(GroupMapper::class);
