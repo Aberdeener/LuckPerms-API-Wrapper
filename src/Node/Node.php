@@ -2,10 +2,11 @@
 
 namespace LuckPermsAPI\Node;
 
+use Illuminate\Contracts\Support\Arrayable;
 use LuckPermsAPI\Concerns\HasContexts;
 use LuckPermsAPI\Concerns\HasExpiry;
 
-class Node
+class Node implements Arrayable
 {
     use HasContexts;
     use HasExpiry;

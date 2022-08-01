@@ -11,7 +11,7 @@ use Tests\TestCase;
 class NodeMapperTest extends TestCase {
 
     public function test_node_mapper_can_map_node_data_to_node_objects(): void {
-        $nodes = [
+        $nodeData = [
             [
                 'key' => 'permissions.test1',
                 'type' => 'permission',
@@ -48,7 +48,9 @@ class NodeMapperTest extends TestCase {
             ]
         ];
 
-        $nodes = resolve(NodeMapper::class)->map($nodes);
+        $nodes = collect($nodeData)->map(function (array $node) {
+            return resolve(NodeMapper::class)->map($node);
+        });
 
         $this->assertCount(3, $nodes);
 
@@ -56,15 +58,16 @@ class NodeMapperTest extends TestCase {
             $this->assertInstanceOf(Node::class, $node);
         }
 
-        $this->assertEquals('permissions.test1', $nodes->get('permissions.test1')->key());
-        $this->assertEquals(NodeType::Permission, $nodes->get('permissions.test1')->type());
-        $this->assertEquals('true', $nodes->get('permissions.test1')->value());
-        $this->assertCount(2, $nodes->get('permissions.test1')->contexts());
-        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test1')->contexts()->get(0)->key());
-        $this->assertEquals('survival', $nodes->get('permissions.test1')->contexts()->get(0)->value());
-        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test1')->contexts()->get(1)->key());
-        $this->assertEquals('lobby', $nodes->get('permissions.test1')->contexts()->get(1)->value());
-        $this->assertEquals(1111111111, $nodes->get('permissions.test1')->expiry());
+        $node = $nodes->first();
+        $this->assertEquals('permissions.test1', $node->key());
+        $this->assertEquals(NodeType::Permission, $node->type());
+        $this->assertEquals('true', $node->value());
+        $this->assertCount(2, $node->contexts());
+        $this->assertEquals(ContextKey::World, $node->contexts()->get(0)->key());
+        $this->assertEquals('survival', $node->contexts()->get(0)->value());
+        $this->assertEquals(ContextKey::World, $node->contexts()->get(1)->key());
+        $this->assertEquals('lobby', $node->contexts()->get(1)->value());
+        $this->assertEquals(1111111111, $node->expiry());
         $this->assertSame([
             'key' => 'permissions.test1',
             'type' => 'permission',
@@ -80,15 +83,16 @@ class NodeMapperTest extends TestCase {
                 ],
             ],
             'expiry' => 1111111111,
-        ], $nodes->get('permissions.test1')->toArray());
+        ], $node->toArray());
 
-        $this->assertEquals('permissions.test2', $nodes->get('permissions.test2')->key());
-        $this->assertEquals(NodeType::Permission, $nodes->get('permissions.test2')->type());
-        $this->assertEquals('false', $nodes->get('permissions.test2')->value());
-        $this->assertCount(1, $nodes->get('permissions.test2')->contexts());
-        $this->assertEquals(ContextKey::World, $nodes->get('permissions.test2')->contexts()->get(0)->key());
-        $this->assertEquals('survival', $nodes->get('permissions.test2')->contexts()->get(0)->value());
-        $this->assertEquals(2222222222, $nodes->get('permissions.test2')->expiry());
+        $node = $nodes->get(1);
+        $this->assertEquals('permissions.test2', $node->key());
+        $this->assertEquals(NodeType::Permission, $node->type());
+        $this->assertEquals('false', $node->value());
+        $this->assertCount(1, $node->contexts());
+        $this->assertEquals(ContextKey::World, $node->contexts()->get(0)->key());
+        $this->assertEquals('survival', $node->contexts()->get(0)->value());
+        $this->assertEquals(2222222222, $node->expiry());
         $this->assertSame([
             'key' => 'permissions.test2',
             'type' => 'permission',
@@ -100,19 +104,20 @@ class NodeMapperTest extends TestCase {
                 ],
             ],
             'expiry' => 2222222222,
-        ], $nodes->get('permissions.test2')->toArray());
+        ], $node->toArray());
 
-        $this->assertEquals('group.mod', $nodes->get('group.mod')->key());
-        $this->assertEquals(NodeType::Inheritance, $nodes->get('group.mod')->type());
-        $this->assertEquals('true', $nodes->get('group.mod')->value());
-        $this->assertCount(0, $nodes->get('group.mod')->contexts());
-        $this->assertEquals(0, $nodes->get('group.mod')->expiry());
+        $node = $nodes->get(2);
+        $this->assertEquals('group.mod', $node->key());
+        $this->assertEquals(NodeType::Inheritance, $node->type());
+        $this->assertEquals('true', $node->value());
+        $this->assertCount(0, $node->contexts());
+        $this->assertEquals(0, $node->expiry());
         $this->assertSame([
             'key' => 'group.mod',
             'type' => 'inheritance',
             'value' => 'true',
             'context' => [],
             'expiry' => 0,
-        ], $nodes->get('group.mod')->toArray());
+        ], $node->toArray());
     }
 }

@@ -7,28 +7,12 @@ use LuckPermsAPI\Contracts\Mapper;
 
 class PermissionMapper implements Mapper
 {
-    /**
-     * @param array $data
-     *
-     * @return Collection<Permission>
-     */
-    public function map(array $data): Collection
+    public function map(array $data): Permission
     {
-        $permissions = new Collection();
-
-        foreach ($data as $permissionData) {
-            $permissions->push(new Permission(
-                $permissionData['key'],
-                $permissionData['value'],
-                $permissionData['context'],
-            ));
-        }
-
-        return $permissions;
-    }
-
-    public function mapSingle(array $data): Permission
-    {
-        return self::map($data)->first();
+        return new Permission(
+            $data['key'],
+            $data['value'],
+            $data['context'],
+        );
     }
 }

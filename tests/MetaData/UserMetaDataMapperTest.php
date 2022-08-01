@@ -19,7 +19,7 @@ class UserMetaDataMapperTest extends TestCase {
             'primaryGroup' => 'staff',
         ];
 
-        $userMetaData = resolve(UserMetaDataMapper::class)->mapSingle($userMetadataData);
+        $userMetaData = resolve(UserMetaDataMapper::class)->map($userMetadataData);
 
         $this->assertEquals($userMetadataData['meta'], $userMetaData->meta()->toArray());
         $this->assertEquals($userMetadataData['prefix'], $userMetaData->prefix());

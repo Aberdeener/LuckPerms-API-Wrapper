@@ -2,19 +2,64 @@
 
 namespace Tests\Group;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Exception\GroupNotFoundException;
 use LuckPermsAPI\Group\GroupMapper;
 use LuckPermsAPI\Node\NodeType;
+use LuckPermsAPI\Repository\Search;
 use Tests\TestCase;
 
 class GroupRepositoryTest extends TestCase {
 
+    public function test_all_identifiers_returns_array_of_group_names(): void {
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->method('get')->with('/group')->willReturn(
+            new Response(200, [], json_encode([
+                'group1',
+                'group2',
+            ])),
+        );
+
+        $this->session->httpClient = $httpClient;
+
+        $results = $this->session->groupRepository()->allIdentifiers();
+
+        $this->assertEquals(['group1', 'group2'], $results->toArray());
+    }
+
+    public function test_search(): void {
+        foreach (['key', 'keyStartsWith', 'metaKey', 'type'] as $searchMethod) {
+            $httpClient = $this->createMock(Client::class);
+            $httpClient->expects($this->once())->method('get')->with(
+                '/group/search',
+                [
+                    'search' => [
+                        $searchMethod => $searchMethod === 'type' ? 'inheritance' : 'hahaha.',
+                    ],
+                ],
+            )->willReturn(
+                new Response(200, [], json_encode([
+                ])),
+            );
+
+            $this->session->httpClient = $httpClient;
+
+            $method = "with{$searchMethod}";
+            $this->session->groupRepository()->search(
+                Search::$method($searchMethod === 'type' ? NodeType::Inheritance : 'hahaha.')
+            );
+        }
+    }
+
     public function test_load_will_throw_exception_if_group_not_found(): void {
-        $this->session->httpClient = $this->createMockClient([
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->method('get')->with('/group/not-a-group')->willReturn(
             new Response(404),
-        ]);
+        );
+
+        $this->session->httpClient = $httpClient;
 
         $this->expectException(GroupNotFoundException::class);
         $this->expectExceptionMessage("Group with name 'not-a-group' not found");
@@ -23,7 +68,8 @@ class GroupRepositoryTest extends TestCase {
     }
 
     public function test_load_will_return_group_if_valid(): void {
-        $this->session->httpClient = $this->createMockClient([
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->method('get')->with('/group/staff')->willReturn(
             new Response(200, [], json_encode([
                 'name' => 'staff',
                 'displayName' => 'Staff',
@@ -52,8 +98,10 @@ class GroupRepositoryTest extends TestCase {
                         'context' => [],
                     ]
                 ]
-            ], JSON_THROW_ON_ERROR)),
-        ]);
+            ]))
+        );
+
+        $this->session->httpClient = $httpClient;
 
         $group = $this->session->groupRepository()->load('staff');
 
@@ -82,7 +130,8 @@ class GroupRepositoryTest extends TestCase {
     }
 
     public function test_load_will_not_call_api_twice(): void {
-        $this->session->httpClient = $this->createMockClient([
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->expects($this->once())->method('get')->with('/group/staff')->willReturn(
             new Response(200, [], json_encode([
                 'name' => 'staff',
                 'displayName' => 'Staff',
@@ -111,14 +160,16 @@ class GroupRepositoryTest extends TestCase {
                         'context' => [],
                     ]
                 ]
-            ], JSON_THROW_ON_ERROR)),
-        ]);
+            ])),
+        );
 
-        // expect GroupMapper->mapSingle to be called only once, since it'll be cached the second time
+        $this->session->httpClient = $httpClient;
+
+        // expect GroupMapper->map to be called only once, since it'll be cached the second time
         $groupMapperMock = $this->createMock(GroupMapper::class);
         $this->container->singleton(GroupMapper::class, fn() => $groupMapperMock);
 
-        $groupMapperMock->expects($this->once())->method('mapSingle');
+        $groupMapperMock->expects($this->once())->method('map');
 
         $this->session->groupRepository()->load('staff');
         $this->session->groupRepository()->load('staff');

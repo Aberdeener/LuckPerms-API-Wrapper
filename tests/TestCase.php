@@ -39,20 +39,4 @@ class TestCase extends \PHPUnit\Framework\TestCase {
             return new GroupRepository($this->session);
         });
     }
-
-    protected function createMockClient(array $queue): Client
-    {
-        $handlerStack = HandlerStack::create(
-            new MockHandler($queue),
-        );
-
-        return new Client([
-            'handler' => $handlerStack,
-            'base_uri' => 'https://luckperms.net/api/v2',
-            'headers' => [
-                'Authorization' => 'Bearer 12345',
-            ],
-            'http_errors' => false,
-        ]);
-    }
 }

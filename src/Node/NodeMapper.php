@@ -9,32 +9,14 @@ use RuntimeException;
 
 class NodeMapper implements Mapper
 {
-    /**
-     * @param array $data
-     *
-     * @throws InvalidNodeTypeException
-     *
-     * @return Collection<string, Node>
-     */
-    public function map(array $data): Collection
+    public function map(array $data): Node
     {
-        $nodes = new Collection();
-
-        foreach ($data as $nodeData) {
-            $nodes->put($nodeData['key'], new Node(
-                $nodeData['key'],
-                NodeType::tryFrom($nodeData['type']) ?? throw new InvalidNodeTypeException("Invalid NodeType: {$nodeData['type']}"),
-                $nodeData['value'],
-                $nodeData['context'],
-                $nodeData['expiry'] ?? 0,
-            ));
-        }
-
-        return $nodes;
-    }
-
-    public function mapSingle(array $data): Node
-    {
-        throw new RuntimeException('Not implemented');
+        return new Node(
+            $data['key'],
+            NodeType::tryFrom($data['type']) ?? throw new InvalidNodeTypeException("Invalid NodeType: {$data['type']}"),
+            $data['value'],
+            $data['context'],
+            $data['expiry'] ?? 0,
+        );
     }
 }

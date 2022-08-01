@@ -2,40 +2,18 @@
 
 namespace LuckPermsAPI\Group;
 
-use Illuminate\Support\Collection;
 use LuckPermsAPI\Contracts\Mapper;
 
 class GroupMapper implements Mapper
 {
-    /**
-     * @param array $data
-     *
-     * @return Collection<Group>
-     */
-    public function map(array $data): Collection
+    public function map(array $data): Group
     {
-        $groups = new Collection();
-
-        foreach ($data as $groupData) {
-            $groups->put($groupData['name'], new Group(
-                $groupData['name'],
-                $groupData['displayName'],
-                $groupData['weight'],
-                $groupData['metaData'],
-                $groupData['nodes'],
-            ));
-        }
-
-        return $groups;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return Group
-     */
-    public function mapSingle(array $data): Group
-    {
-        return $this->map([$data])->first();
+        return new Group(
+            $data['name'],
+            $data['displayName'],
+            $data['weight'],
+            $data['metaData'],
+            $data['nodes'],
+        );
     }
 }

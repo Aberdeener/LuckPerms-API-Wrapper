@@ -25,7 +25,9 @@ class ContextMapperTest extends TestCase {
             ],
         ];
 
-        $contexts = resolve(ContextMapper::class)->map($contextData);
+        $contexts = collect($contextData)->map(function (array $context) {
+            return resolve(ContextMapper::class)->map($context);
+        });
 
         $this->assertCount(3, $contexts);
 

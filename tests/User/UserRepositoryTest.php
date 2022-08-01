@@ -2,21 +2,66 @@
 
 namespace Tests\User;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use LuckPermsAPI\Context\ContextKey;
 use LuckPermsAPI\Exception\UserNotFoundException;
 use LuckPermsAPI\Group\UserGroup;
 use LuckPermsAPI\Node\NodeType;
 use LuckPermsAPI\Permission\Permission;
+use LuckPermsAPI\Repository\Search;
 use LuckPermsAPI\User\UserMapper;
 use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase {
 
+    public function test_all_identifiers_returns_array_of_user_uniqueIds(): void {
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->method('get')->with('/user')->willReturn(
+            new Response(200, [], json_encode([
+                'uuid1',
+                'uuid2',
+            ])),
+        );
+
+        $this->session->httpClient = $httpClient;
+
+        $results = $this->session->userRepository()->allIdentifiers();
+
+        $this->assertEquals(['uuid1', 'uuid2'], $results->toArray());
+    }
+
+    public function test_search(): void {
+        foreach (['key', 'keyStartsWith', 'metaKey', 'type'] as $searchMethod) {
+            $httpClient = $this->createMock(Client::class);
+            $httpClient->expects($this->once())->method('get')->with(
+                '/user/search',
+                [
+                    'search' => [
+                        $searchMethod => $searchMethod === 'type' ? 'inheritance' : 'hahaha.',
+                    ],
+                ],
+            )->willReturn(
+                new Response(200, [], json_encode([
+                ])),
+            );
+
+            $this->session->httpClient = $httpClient;
+
+            $method = "with{$searchMethod}";
+            $this->session->userRepository()->search(
+                Search::$method($searchMethod === 'type' ? NodeType::Inheritance : 'hahaha.')
+            );
+        }
+    }
+
     public function test_load_will_throw_exception_if_user_not_found(): void {
-        $this->session->httpClient = $this->createMockClient([
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->method('get')->willReturn(
             new Response(404),
-        ]);
+        );
+
+        $this->session->httpClient = $httpClient;
 
         $this->expectException(UserNotFoundException::class);
         $this->expectExceptionMessage("User with identifier 'not-a-uuid' not found");
@@ -25,7 +70,8 @@ class UserRepositoryTest extends TestCase {
     }
 
     public function test_load_will_not_call_api_twice(): void {
-        $this->session->httpClient = $this->createMockClient([
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->expects($this->once())->method('get')->willReturn(
             new Response(200, [], json_encode([
                 'uniqueId' => '9490b898-856a-4aae-8de3-2986d007269b',
                 'username' => 'Aberdeener',
@@ -68,20 +114,27 @@ class UserRepositoryTest extends TestCase {
                     'suffix' => 'suffix!',
                     'primaryGroup' => 'staff',
                 ],
-            ], JSON_THROW_ON_ERROR)),
-        ]);
+            ])),
+        );
+
+        $this->session->httpClient = $httpClient;
 
         $userMapperMock = $this->createMock(UserMapper::class);
         $this->container->singleton(UserMapper::class, fn() => $userMapperMock);
 
-        $userMapperMock->expects($this->once())->method('mapSingle');
+        $userMapperMock->expects($this->once())->method('map');
 
         $this->session->userRepository()->load('9490b898-856a-4aae-8de3-2986d007269b');
         $this->session->userRepository()->load('9490b898-856a-4aae-8de3-2986d007269b');
     }
 
     public function test_load_will_return_user_if_valid() {
-        $this->session->httpClient = $this->createMockClient([
+        $httpClient = $this->createMock(Client::class);
+        $httpClient->method('get')->withConsecutive(
+            ['/user/9490b898-856a-4aae-8de3-2986d007269b'],
+            ['/group/staff'],
+            ['/group/member'],
+        )->willReturnOnConsecutiveCalls(
             new Response(200, [], json_encode([
                 'uniqueId' => '9490b898-856a-4aae-8de3-2986d007269b',
                 'username' => 'Aberdeener',
@@ -124,7 +177,7 @@ class UserRepositoryTest extends TestCase {
                     'suffix' => 'suffix!',
                     'primaryGroup' => 'staff',
                 ],
-            ], JSON_THROW_ON_ERROR)),
+            ])),
             new Response(200, [], json_encode([
                 'name' => 'staff',
                 'displayName' => 'Staff',
@@ -153,7 +206,7 @@ class UserRepositoryTest extends TestCase {
                         'context' => [],
                     ]
                 ]
-            ], JSON_THROW_ON_ERROR)),
+            ])),
             new Response(200, [], json_encode([
                 'name' => 'member',
                 'displayName' => 'Meember!',
@@ -163,9 +216,11 @@ class UserRepositoryTest extends TestCase {
                         'test' => 'test meember value',
                     ],
                 ],
-                'nodes' => []
-            ], JSON_THROW_ON_ERROR))
-        ]);
+                'nodes' => [],
+            ])),
+        );
+
+        $this->session->httpClient = $httpClient;
 
         $user = $this->session->userRepository()->load('9490b898-856a-4aae-8de3-2986d007269b');
 

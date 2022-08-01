@@ -15,6 +15,11 @@ trait HasNodes
      */
     final public function nodes(): Collection
     {
-        return resolve(NodeMapper::class)->map($this->nodes);
+        $nodeMapper = resolve(NodeMapper::class);
+
+        return collect($this->nodes)
+            ->map(function (array $node) use ($nodeMapper): Node {
+                return $nodeMapper->map($node);
+            });
     }
 }

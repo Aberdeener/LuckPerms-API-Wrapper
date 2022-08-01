@@ -29,7 +29,9 @@ class PermissionMapperTest extends TestCase {
             ],
         ];
 
-        $permissions = resolve(PermissionMapper::class)->map($permissionNodes);
+        $permissions = collect($permissionNodes)->map(function (array $permission) {
+            return resolve(PermissionMapper::class)->map($permission);
+        });
 
         $this->assertCount(2, $permissions);
 

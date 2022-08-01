@@ -16,7 +16,7 @@ class MetaDataMapperTest extends TestCase {
             ],
         ];
 
-        $metaData = resolve(MetaDataMapper::class)->mapSingle($metadataData);
+        $metaData = resolve(MetaDataMapper::class)->map($metadataData);
 
         $this->assertEquals($metadataData['meta'], $metaData->meta()->toArray());
     }

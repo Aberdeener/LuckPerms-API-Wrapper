@@ -65,15 +65,17 @@ class GroupMapperTest extends TestCase {
             ],
         ];
 
-        $groups = resolve(GroupMapper::class)->map($groupNodes);
+        $groups = collect($groupNodes)->map(function (array $groupNode) {
+            return resolve(GroupMapper::class)->map($groupNode);
+        });
 
-        $this->assertCount(2, $groupNodes);
+        $this->assertCount(2, $groups);
 
         foreach ($groups->all() as $group) {
             $this->assertInstanceOf(Group::class, $group);
         }
 
-        $group = $groups->get('test1');
+        $group = $groups->first();
         $this->assertEquals('test1', $group->name());
         $this->assertEquals('Test 1', $group->displayName());
         $this->assertEquals(1, $group->weight());
@@ -90,7 +92,7 @@ class GroupMapperTest extends TestCase {
         $this->assertEquals(ContextKey::GameMode, $context->key());
         $this->assertEquals('survival', $context->value());
 
-        $group = $groups->get('test2');
+        $group = $groups->get(1);
         $this->assertEquals('test2', $group->name());
         $this->assertEquals('Test 2', $group->displayName());
         $this->assertEquals(2, $group->weight());

@@ -2,23 +2,44 @@
 
 namespace LuckPermsAPI\User;
 
-use GuzzleHttp\Exception\GuzzleException;
-use LuckPermsAPI\Contracts\Repository;
+use Illuminate\Support\Collection;
 use LuckPermsAPI\Exception\UserNotFoundException;
+use LuckPermsAPI\Repository\Repository;
+use LuckPermsAPI\Repository\Search;
 
 class UserRepository extends Repository
 {
-    /**
-     * @throws GuzzleException
-     * @throws UserNotFoundException
-     */
+    public function allIdentifiers(): Collection {
+        if (isset($this->identifiers)) {
+            return $this->identifiers;
+        }
+
+        $this->identifiers = new Collection();
+
+        $response = $this->session->httpClient->get('/user');
+
+        return $this->identifiers = collect($this->json($response->getBody()->getContents()));
+    }
+
+    public function search(Search $search): Collection {
+        $response = $this->session->httpClient->get('/user/search', [
+            'search' => $search->toArray(),
+        ]);
+
+        $userMapper = resolve(UserMapper::class);
+
+        return collect($this->json($response->getBody()->getContents()))->map(function (array $user) use ($userMapper) {
+            return $userMapper->map($user);
+        });
+    }
+
     public function load(string $identifier): User
     {
         if ($this->objects->has($identifier)) {
             return $this->objects->get($identifier);
         }
 
-        $response = $this->session->httpClient->get("/users/{$identifier}");
+        $response = $this->session->httpClient->get("/user/{$identifier}");
 
         if ($response->getStatusCode() === 404) {
             throw new UserNotFoundException("User with identifier '{$identifier}' not found");
@@ -26,7 +47,7 @@ class UserRepository extends Repository
 
         $data = $this->json($response->getBody()->getContents());
 
-        $user = resolve(UserMapper::class)->mapSingle($data);
+        $user = resolve(UserMapper::class)->map($data);
 
         $this->objects->put($identifier, $user);
 

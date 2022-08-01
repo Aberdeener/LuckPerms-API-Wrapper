@@ -15,11 +15,14 @@ trait HasUserGroups
      */
     final public function groups(): Collection
     {
-        return resolve(UserGroupMapper::class)
-            ->map($this->nodes()->filter(function (Node $node) {
+        $userGroupMapper = resolve(UserGroupMapper::class);
+
+        return $this->nodes()
+            ->filter(function (Node $node) {
                 return $node->type() === NodeType::Inheritance;
-            })->map(function (Node $node) {
-                return $node->toArray();
-            })->toArray());
+            })
+            ->map(function (Node $node) use ($userGroupMapper): UserGroup {
+                return $userGroupMapper->map($node->toArray());
+            });
     }
 }
