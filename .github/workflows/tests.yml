@@ -18,18 +18,25 @@ jobs:
           - "8.2"
 
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+      - name: Install composer and dependencies
+        uses: php-actions/composer@v6
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v3
+        env:
+          XDEBUG_MODE: coverage
         with:
-          php-version: "${{ matrix.php-version }}"
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          php_extensions: xdebug
+          args: tests --coverage-clover ./coverage.xml
 
-      - name: "Install dependencies"
-        run: "composer update --no-interaction --no-progress --ignore-platform-reqs"
-
-      - name: "Tests"
-        run: |
-          composer install --ignore-platform-reqs
-          vendor/bin/phpunit tests
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODE_COV_TOKEN }}
+          files: ./coverage.xml
+          verbose: true
