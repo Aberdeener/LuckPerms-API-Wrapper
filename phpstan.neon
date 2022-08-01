@@ -6,4 +6,4 @@ parameters:
         - vendor/
         - tests/
     ignoreErrors:
-        - 'Match arm comparison between#'
+        - '#Match arm comparison between#'
