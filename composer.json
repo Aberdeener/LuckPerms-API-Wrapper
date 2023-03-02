@@ -1,4 +1,14 @@
 {
+  "name": "aberdeener/LuckPerms-API",
+  "description": "PHP wrapper for LuckPerms REST API",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tadhg",
+      "email": "tadhgsmboyle@gmail.com"
+    }
+  ],
   "require": {
     "guzzlehttp/guzzle": "^7.4.5",
     "illuminate/collections": "^9.21",
