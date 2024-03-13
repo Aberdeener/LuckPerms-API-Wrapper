@@ -56,7 +56,7 @@ trait HasPermissions
 
         $data = json_decode($response->getBody()->getContents(), true);
 
-        $result = $data['result'] === "true";
+        $result = $data['result'] === 'true';
         $node = isset($data['node']) ? resolve(NodeMapper::class)->map($data['node']) : null;
 
         return new PermissionCheckResult($result, $node);
