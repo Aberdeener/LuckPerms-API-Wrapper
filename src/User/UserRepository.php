@@ -33,7 +33,7 @@ class UserRepository extends Repository
         return collect($this->json($response->getBody()->getContents()))->map(function ($userData) {
             return [
                 'uniqueId' => $userData['uniqueId'],
-                'results' => $userData['results']
+                'results' => $userData['results'],
             ];
         });
     }

@@ -33,7 +33,7 @@ class GroupRepository extends Repository
         return collect($this->json($response->getBody()->getContents()))->map(function ($userData) {
             return [
                 'name' => $userData['name'],
-                'results' => $userData['results']
+                'results' => $userData['results'],
             ];
         });
     }
