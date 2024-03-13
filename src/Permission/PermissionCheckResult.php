@@ -7,12 +7,9 @@ use LuckPermsAPI\Node\Node;
 class PermissionCheckResult
 {
     private bool $result;
-    private Node $node;
+    private ?Node $node;
 
-    public function __construct(
-        bool $result,
-        Node $node,
-    ) {
+    public function __construct(bool $result, ?Node $node) {
         $this->result = $result;
         $this->node = $node;
     }
