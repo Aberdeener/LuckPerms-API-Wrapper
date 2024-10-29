@@ -35,7 +35,7 @@ class GroupRepositoryTest extends TestCase {
             $httpClient->expects($this->once())->method('get')->with(
                 '/group/search',
                 [
-                    'search' => [
+                    'query' => [
                         $searchMethod => $searchMethod === 'type' ? 'inheritance' : 'hahaha.',
                     ],
                 ],

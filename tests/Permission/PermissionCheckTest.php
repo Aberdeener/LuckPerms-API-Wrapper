@@ -21,7 +21,7 @@ class PermissionCheckTest extends TestCase {
             [
                 '/user/9490b898-856a-4aae-8de3-2986d007269b/permissionCheck',
                 [
-                    'json' => [
+                    'query' => [
                         'uniqueId' => '9490b898-856a-4aae-8de3-2986d007269b',
                         'permission' => 'minecraft.command.ban',
                     ],
@@ -76,7 +76,7 @@ class PermissionCheckTest extends TestCase {
             [
                 '/group/default/permissionCheck',
                 [
-                    'json' => [
+                    'query' => [
                         'name' => 'default',
                         'permission' => 'minecraft.command.ban',
                     ],
@@ -146,7 +146,7 @@ class PermissionCheckTest extends TestCase {
         $mockClient->method('post')->with(
             '/group/default/permissionCheck',
             [
-                'json' => [
+                'form_params' => [
                     'name' => 'default',
                     'permission' => 'minecraft.command.ban',
                     'queryOptions' => [
@@ -222,7 +222,7 @@ class PermissionCheckTest extends TestCase {
         $mockClient->method('post')->with(
             '/group/default/permissionCheck',
             [
-                'json' => [
+                'form_params' => [
                     'name' => 'default',
                     'permission' => 'minecraft.command.ban',
                     'queryOptions' => [

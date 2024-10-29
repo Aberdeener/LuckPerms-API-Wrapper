@@ -3,7 +3,6 @@
 use LuckPermsAPI\LuckPermsClient;
 
 if (!function_exists('resolve')) {
-
     /**
      * @template T
      *

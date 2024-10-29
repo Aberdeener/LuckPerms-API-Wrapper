@@ -37,7 +37,7 @@ class UserRepositoryTest extends TestCase {
             $httpClient->expects($this->once())->method('get')->with(
                 '/user/search',
                 [
-                    'search' => [
+                    'query' => [
                         $searchMethod => $searchMethod === 'type' ? 'inheritance' : 'hahaha.',
                     ],
                 ],
